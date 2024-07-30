@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
-    basePath: '',
+    basePath: '/',
     /*
     env: {
         //app_name:'CareConnect',
