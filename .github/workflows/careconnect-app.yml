@@ -15,7 +15,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - run: docker build -t mostofa62/careconnet_app . --build-arg NEXT_PUBLIC_API_URL="http://45.90.220.243:5002/api/"
+      - run: docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} --build-arg NEXT_PUBLIC_NUMBER_OF_PAGE=${{ secrets.NEXT_PUBLIC_NUMBER_OF_PAGE }} --build-arg NEXT_PUBLIC_PER_PAGE_LIST=${{ secrets.NEXT_PUBLIC_PER_PAGE_LIST }} -t mostofa62/careconnet_app .        
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
