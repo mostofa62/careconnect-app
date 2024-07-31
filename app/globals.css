@@ -3,14 +3,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* for hide fusionchart credit */
-svg > g[class^='raphael-group-'] g {
-  fill: none !important;
-}
-/* end for hide fusionchart credit */
-.logo-font-color1{
-  color:#f1e56c;
-}
+
+
 progress::-webkit-progress-bar {background-color: #f1e56c; width: 100%;}
 progress {background-color: #f1e56c;}
 
@@ -22,7 +16,7 @@ progress {color: #000000;}
 
 @layer base {
   body {
-    @apply font-satoshi font-normal text-base text-body bg-whiten relative z-1;
+    @apply font-normal text-base text-body bg-whiten relative z-1;
   }
 }
 
@@ -211,4 +205,29 @@ span.flatpickr-weekday,
   background-color: #1A222C;
   border-radius: 5px;
   border: 1px solid #f1e56c;
+}
+
+
+/* TanStack Grid  */
+
+table.tanstack-table thead tr th{
+  color:#4F4F4F;
+  font-size:18px;
+  line-height:21px;
+  height:42px;
+  padding:0 0 20px 0; 
+}
+
+table.tanstack-table tbody tr{
+  border-top:1px solid #E6E6E6;
+   
+}
+
+table.tanstack-table tbody tr td{
+  border-top-color:#E6E6E6;
+  padding: 20px 0;
+  font-size:15px;
+  line-height:20px;
+  height:60px;
+  color:#4F4F4F;  
 }

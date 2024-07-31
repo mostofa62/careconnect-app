@@ -13,7 +13,10 @@ module.exports = {
   darkMode: 'class',
   theme: {
     fontFamily: {
+      /*
       satoshi: ['Satoshi', 'sans-serif'],
+      worksans:['WorkSans', 'sans-serif']
+      */
     },
     colors: {
       current: 'currentColor',

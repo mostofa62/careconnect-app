@@ -82,7 +82,7 @@ export default function Insurance() {
     {
         accessorKey: 'name',
         header: 'Insurance Name',
-        cell: info => <a className="font-semibold text-[#0166FF]" href={`insurrance/caremanagers/${info.row.original._id}`}  rel="noopener noreferrer">{info.getValue()}</a>,
+        cell: info => <a className="text-[#0166FF] font-medium" href={`insurrance/caremanagers/${info.row.original._id}`}  rel="noopener noreferrer">{info.getValue()}</a>,
     },
     {
       accessorKey: 'address',
@@ -182,17 +182,17 @@ export default function Insurance() {
         <>
         <DefaultLayout>
         <div className="grid grid-flow-row">
-            <div className="mt-4">
-                <div className="flex flex-row">
-                    <div className="p-3">
-                        <span className="text-lg capitalize font-semibold text-[#4F4F4F]">Insurrance List</span>
+            <div className="mt-8">
+                <div className="flex flex-row h-[45px]">
+                    <div className="py-[10px]">
+                        <p className="text-[25px]  leading-[25px] capitalize  font-medium text-[#000000]">Insurance List</p>
                     </div>
-                    <div className="p-3">
-                        <span className="text-xs font-semibold">{showingText}</span>
+                    <div className="py-[15px] px-10">
+                        <p className="text-[15px] leading-[15px] text-[#4F4F4F]">{showingText}</p>
                     </div>
 
 
-                    <div className="p-2.5">
+                    <div>
                       <GridGlobalSearch 
                       filterInput={filterInput}
                       handleFilterChange={handleFilterChange}
@@ -202,32 +202,32 @@ export default function Insurance() {
                       />
                     </div>
 
-                    <div className="p-2.5">
+                    <div className="px-10">
                         <Link
                             href={'/admin/insurrance/cu'}
-                            className={`text-sm h-8 capitalize group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out   bg-[#0166FF] text-white`}
+                            className={`text-sm h-[45px] capitalize group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out   bg-[#0166FF] text-white`}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={20} height={20} strokeWidth="1.5" stroke="currentColor" className="">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
 
-                            Add Insurrance
+                            <p className="text-[18px] font-medium">Add Insurance</p>
                         </Link>
                     </div>
                 </div>
             </div>
 
-            <div className="mt-4 p-2">  
+            <div className="mt-10 p-2">  
             
-      <table className="table-auto w-full text-center">
+      <table className="tanstack-table table-auto w-full text-left">
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <th className={
-                  header.column.getCanSort()
+                <th className={`font-medium
+                  ${header.column.getCanSort()
                     ? 'cursor-pointer select-none'
-                    : ''
+                    : ''}`
                 } key={header.id} onClick={header.column.getToggleSortingHandler()}>
                   {flexRender(header.column.columnDef.header, header.getContext())}
                   {{
@@ -244,7 +244,7 @@ export default function Insurance() {
                 {error &&
                 <>
                 <tr className="col-span-full row-span-full">
-                  <td className="text-center w-full p-2">
+                  <td className="text-center w-full p-2 font-normal">
                     <span>{error}</span>
                   </td>
                 </tr>
@@ -253,7 +253,7 @@ export default function Insurance() {
                 {loading ?  
                 <>
                 <tr className="col-span-full row-span-full">
-                  <td className="text-center w-full p-2">
+                  <td className="text-center w-full p-2 font-normal">
                     <span>... Loading ...</span>
                   </td>
                 </tr>
@@ -269,9 +269,9 @@ export default function Insurance() {
                     ref={el => (rowRefs.current[row.original._id] = el)}
                     onMouseEnter={() => handleMouseEnter(row.original._id)}
                     onMouseLeave={handleMouseLeave}  
-                    key={row.id} className="border-t">
+                    key={row.id}>
                     {row.getVisibleCells().map((cell:any) => (
-                        <td className="py-1" key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                        <td className="font-normal" key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
                     ))}
 
                     {

@@ -20,12 +20,12 @@ const GridGlobalSearch = ({
         <div className="relative">
 
 
-                        <div className="flex flex-row">
+                        <div className="flex flex-row h-[45px]">
 
                           <div>
-                                  <span className="absolute top-[46%] left-1.5 -translate-y-1/2">
+                                  <span className="absolute top-[50%] left-2 -translate-y-1/2">
                                         <svg
-                                      className="fill-[#AEB7C0]  dark:fill-bodydark"
+                                      className="fill-[#4F4F4F]"
                                       width="15"
                                       height="15"
                                       viewBox="0 0 18 18"
@@ -59,7 +59,7 @@ const GridGlobalSearch = ({
                                     */}
                                     <input
 
-                                    className="w-full h-8 rounded-sm border border-stroke bg-transparent py-1 pl-7 pr-8 outline-none focus:border-[#0a4a82] focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0a4a82]"
+                                    className="w-full text-[16px] h-[45px] text-[#4F4F4F] rounded-sm border border-[#DFDFDF] bg-transparent py-1 pl-7.5 pr-6.5 outline-none focus:border-[#0a4a82] focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0a4a82]"
                                       
                                                                             
                                       value={filterInput}
@@ -69,7 +69,7 @@ const GridGlobalSearch = ({
                             </div>
                             <div className="ml-[-2px]">
 
-                                    <button className="bg-[#0166FF] text-white py-1 px-2 rounded-tr rounded-br h-8 text-sm" onClick={applyFilter}>
+                                    <button className="bg-[#0166FF] w-[92px] text-white py-1 px-2 rounded-tr rounded-br h-[45px] text-sm" onClick={applyFilter}>
                                       {searchButtonText}
                                     </button>
                             </div>
