@@ -54,10 +54,12 @@ export const ValidationSchema =  object().shape({
 
               phoneNumber: string()
               .ensure()
+              .matches(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d*)\)?)[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?)+)(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i,`provide valid ${DataLabel.phoneNumber}`)
               .required(`${DataLabel.phoneNumber} is required`),
 
               zipCode: string()
               .ensure()
+              .matches(/^(?!00000)\d{5}(?:[-\s](?!0000)\d{4})?$/,`provide valid ${DataLabel.zipCode}`)
               .required(`${DataLabel.zipCode} is required`),
 
 

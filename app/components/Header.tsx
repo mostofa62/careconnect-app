@@ -60,8 +60,14 @@ const Header = (props: {
 
 
   return (
-    <header className="sticky top-0 z-999 flex w-full border-b-[1px]">
-      <div className="flex flex-grow items-center justify-between py-2 px-4 md:px-6 2xl:px-11">
+    <header className="sticky top-0 z-999 flex w-full border-b-[1px] border-[#E6E6E6] h-[100px] bg-white">
+      <div className="flex flex-grow items-center justify-between py-2 px-4 md:px-6 2xl:px-5">
+        
+        <div className='flex'>
+        <Image src={Logo} alt={app_name} className="" height={60}  />
+
+        </div>
+
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
           <button

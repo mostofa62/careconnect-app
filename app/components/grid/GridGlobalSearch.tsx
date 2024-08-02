@@ -59,7 +59,7 @@ const GridGlobalSearch = ({
                                     */}
                                     <input
 
-                                    className="w-full text-[16px] h-[45px] text-[#4F4F4F] rounded-sm border border-[#DFDFDF] bg-transparent py-1 pl-7.5 pr-6.5 outline-none focus:border-[#0a4a82] focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0a4a82]"
+                                    className="w-full text-[18px] h-[45px] text-[#4F4F4F] rounded-sm border border-[#DFDFDF] bg-transparent py-1 pl-7.5 pr-6.5 outline-none focus:border-[#0a4a82] focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-[#0a4a82]"
                                       
                                                                             
                                       value={filterInput}
@@ -69,7 +69,7 @@ const GridGlobalSearch = ({
                             </div>
                             <div className="ml-[-2px]">
 
-                                    <button className="bg-[#0166FF] w-[92px] text-white py-1 px-2 rounded-tr rounded-br h-[45px] text-sm" onClick={applyFilter}>
+                                    <button className="bg-[#0166FF] w-[92px] text-white py-1 px-2 rounded-tr rounded-br h-[45px] text-[18px] font-medium" onClick={applyFilter}>
                                       {searchButtonText}
                                     </button>
                             </div>

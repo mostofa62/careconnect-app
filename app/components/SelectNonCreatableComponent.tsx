@@ -24,10 +24,26 @@ const placeholderStyle="text-center text-black dark:text-white";
 const singleValueStyle="text-black dark:text-white";
 
 
-const selectInputStyles = "relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input";
+const selectInputStyles = "relative z-20 w-full appearance-none rounded border border-[#DFDFDF] bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input";
 const menuStyles = "p-1 mt-0 border";
 const menuListStyle="dark:border-form-strokedark dark:bg-form-input";
 const optionStyle="dark:bg-form-input";
+
+const customStyles = {
+  control: (provided:any, state:any) => ({
+    ...provided,
+    boxShadow: 'none',    
+    borderColor: state.isFocused ? '#0a4a82' : '#DFDFDF', // Change the border color here
+    
+    '&:hover': {
+      borderColor: state.isFocused ? '#0a4a82' : '#DFDFDF', // Change the border color on hover
+    },
+  }),
+  input: (provided:any) => ({
+    ...provided,
+    boxShadow: 'none', // Remove the outline from the input element
+  }),
+};
 
 const SelectNonCreatableComponent = (props:SelectProps) => {
     const [field, state, { setValue, setTouched }] = useField(props.name);
@@ -56,6 +72,7 @@ const SelectNonCreatableComponent = (props:SelectProps) => {
          */
 
       }}
+      styles={customStyles}
       defaultValue={props.defaultValueArray}
       placeholder={props.placeholder||"Type to search"}      
       isMulti={props.isMulti || false}

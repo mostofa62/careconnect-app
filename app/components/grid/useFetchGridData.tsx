@@ -1,13 +1,11 @@
 import React,{ useEffect, useState,useMemo,useCallback } from 'react';
 import axios from "axios";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import toast from 'react-hot-toast';
 const url = process.env.NEXT_PUBLIC_API_URL;
 const number_of_page:any = process.env.NEXT_PUBLIC_NUMBER_OF_PAGE;
-interface hookData{
-    urlSuffix:string;    
-    pagination:any;
-    sorting:any;
-    globalFilter:any;
-}
+
 
 
 // Generate page numbers
@@ -59,44 +57,99 @@ export function PerPageList(){
     return per_page_list;
 }
 
+export function AlertBox(message:string,status:number){
+
+  if(status > 0){
+    toast.success(message)
+  }else{
+    toast.error(message);
+  }
+
+}
+
+export const  DeleteActionGlobal = async(
+    {action, data}:
+    {action:string,data:{}}
+)=>{
+        
+        const responseResult = await axios.post(`${url}${action}`, 
+            data, {
+            
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        ) .then(function (response) {
+         
+          return {
+            'message':response.data.message,
+            'error':response.data.error,
+            'deleted_done':response.data.deleted_done
+          };         
+          
+        })
+        .catch(function (error) {                       
+          return {
+            'message':error,
+            'error':0,
+            'deleted_done':0
+          };    
+        });
+
+        return responseResult;
+
+}
+
+interface hookData{
+  urlSuffix:string;    
+  pagination:any;
+  sorting:any;
+  globalFilter:any;
+  setTableData:(data:[])=>void
+}
+
 const useFetchGridData = ({
     urlSuffix,
     pagination,
     sorting,
-    globalFilter
+    globalFilter,
+    setTableData
 }:hookData)=>{
 
-    const [data, setData] = useState<[]>([]);
+    //const [data, setData] = useState<[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const [totalRows,setTotalRows] = useState(0);
     const [pageCount, setPageCount] = useState(0); 
 
+    const fetchData = useCallback(async () => {
+      setLoading(true);
+      setError(null);
+      try{
+            const response = await axios.post(`${url}${urlSuffix}`, {
+                pageIndex: pagination.pageIndex,
+                pageSize: pagination.pageSize,
+                sortBy: sorting,
+                filter: globalFilter,
+            });
+            //setData(response.data.rows);
+            setTableData(response.data.rows)
+            setTotalRows(response.data.totalRows);
+            setPageCount(response.data.pageCount);
+        }catch (error: any) {
+            setError(error.message || 'Something went wrong!');
+        }
+        setLoading(false);
+    },[pagination,sorting,globalFilter,urlSuffix]);
+
     useEffect(() => {
-        const fetchData = async () => {
-          setLoading(true);
-          setError(null);
-          try{
-                const response = await axios.post(`${url}${urlSuffix}`, {
-                    pageIndex: pagination.pageIndex,
-                    pageSize: pagination.pageSize,
-                    sortBy: sorting,
-                    filter: globalFilter,
-                });
-                setData(response.data.rows);
-                setTotalRows(response.data.totalRows);
-                setPageCount(response.data.pageCount);
-            }catch (error: any) {
-                setError(error.message || 'Something went wrong!');
-            }
-            setLoading(false);
-        };
+        
         fetchData();
-    }, [pagination, sorting, globalFilter,urlSuffix]);
+    }, [fetchData]);
 
     return {
-        data,
+        //data,
         error,
         loading,
         totalRows,

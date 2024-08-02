@@ -95,12 +95,12 @@ export default function InsuranceCreate({
 
            
 
-            <div className="mt-4">
-                <div className="flex flex-row">
-                    <div className="">
+            <div className="mt-[40px]">
+                <div className="flex flex-row h-[29px]">
+                    <div className="h-[21px] pt-[5px] pb-[3px]">
                             <Link
                                     href={'/admin/insurrance'}
-                                    className={`text-xs capitalize group relative flex items-center gap-2 rounded-sm py-2 font-medium duration-300 ease-in-out   text-[#0166FF]`}
+                                    className={`text-[21px] capitalize group relative flex items-center gap-2 rounded-sm py-[3px] font-medium duration-300 ease-in-out   text-[#0166FF]`}
                                 >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" width={15} height={15} viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -110,14 +110,14 @@ export default function InsuranceCreate({
                                 Back
                             </Link>
                     </div>
-                    <div className="ml-4">
-                        <span className="text-lg font-bold capitalize text-[#4F4F4F]">Update Insurrance</span>
+                    <div className="ml-[50px] pt-[5px]">
+                        <span className="text-[25px] font-medium capitalize text-[#4F4F4F]">Update Insurrance</span>
                     </div>
                 </div>
             
             </div>
 
-            <div className="mt-8">
+            <div className="mt-[32px]">
             <Formik
             innerRef={formRef}
         initialValues={{ fetchdata }}
@@ -131,7 +131,7 @@ export default function InsuranceCreate({
             <FormikFormHolder legend="Insurance Details">
 
 <div className="flex flex-row">
-    <div className="p-3 w-[50%]">
+    <div className="w-[50%]">
     <FormikFieldInput 
         label={DataLabel.name} 
         name={`fetchdata.name`}
@@ -153,7 +153,7 @@ export default function InsuranceCreate({
         
     </div>
     
-    <div className="p-3 w-[50%]">
+    <div className="ml-[24px] w-[50%]">
     <FormikFieldInput 
         label={DataLabel.address} 
         name={`fetchdata.address`}
@@ -169,10 +169,11 @@ export default function InsuranceCreate({
 
 
 <div className="flex flex-row">
-    <div className="p-3 w-[50%]">
+    <div className="w-[50%]">
     <FormikFieldInput 
         label={DataLabel.phoneNumber} 
         name={`fetchdata.phoneNumber`}
+        type="tel"        
         placeHolder={`${DataLabel.phoneNumber}`}
         errorMessage ={ errors.fetchdata &&                                        
             errors.fetchdata.phoneNumber &&
@@ -182,10 +183,11 @@ export default function InsuranceCreate({
         
     </div>
     
-    <div className="p-3 w-[50%]">
+    <div className="ml-[24px] w-[50%]">
         <FormikFieldInput 
         label={DataLabel.zipCode} 
         name={`fetchdata.zipCode`}
+        type="number"
         placeHolder={`${DataLabel.zipCode}`}
         errorMessage ={ errors.fetchdata &&                                        
             errors.fetchdata.zipCode &&
@@ -198,7 +200,7 @@ export default function InsuranceCreate({
 
 
 <div className="flex flex-row">
-    <div className="p-3 w-[50%]">
+    <div className="w-[50%]">
     <FormikSelectInput
         label={DataLabel.county}
         defaultValue={fetchdata.county}
@@ -218,7 +220,7 @@ export default function InsuranceCreate({
     </div>
     
     
-    <div className="p-3 w-[50%]">
+    <div className="ml-[24px] w-[50%]">
     <FormikSelectInput
             label={DataLabel.state}
             defaultValue={fetchdata.state}
@@ -252,17 +254,17 @@ export default function InsuranceCreate({
             </div>
             
 
-            <div className="mt-6">
+            <div className="mt-[100px]">
                 <div className="flex flex-row-reverse gap-4">
-                    <div className="relative right-3 top-0">
-                        <button className="text-[15px] h-[35px] bg-[#0166FF] rounded text-white px-4  capitalize text-center font-semibold" onClick={handleSubmit}>
+                    <div className="relative right-5 top-0">
+                        <button className="text-[15px] h-[40px] bg-[#0166FF] rounded text-white px-4  capitalize text-center font-semibold" onClick={handleSubmit}>
                             Save
                         </button>
                     </div>
-                    <div className="relative right-5 top-[5px]">
+                    <div className="relative right-[30px] top-[10px]">
                     <Link
                                     href={'/admin/insurrance'}
-                                    className={`text-[15px] h-[35px] capitalize text-center px-4 py-2  font-semibold bg-[#0166FF] rounded bg-opacity-5 text-[#0166FF]`}
+                                    className={`text-[15px] h-[40px] capitalize text-center px-4 py-2.5  font-semibold bg-[#0166FF] rounded bg-opacity-5 text-[#0166FF]`}
                                 >                               
 
 

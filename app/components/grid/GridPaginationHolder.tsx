@@ -17,13 +17,13 @@ per_page_list
 ){
 
     return(
-    <div className="mt-8">
+    
 
 
 
 
         
-            <div className="flex flex-row items-center justify-center gap-2 h-[35px]">
+            <div className="flex flex-row items-center justify-center gap-2 h-[35px] mb-5">
 
 
               <div>
@@ -114,7 +114,7 @@ per_page_list
             </div>
       
 
-        </div>
+        
     )
 
 }

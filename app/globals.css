@@ -226,8 +226,18 @@ table.tanstack-table tbody tr{
 table.tanstack-table tbody tr td{
   border-top-color:#E6E6E6;
   padding: 20px 0;
-  font-size:15px;
+  font-size:16px;
   line-height:20px;
   height:60px;
   color:#4F4F4F;  
+}
+
+/* sidebar css */
+
+.sidebar li a{
+  font-size:18px;
+}
+
+.sidebar li ul li a{
+  font-size:16px;
 }

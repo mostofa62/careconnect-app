@@ -89,11 +89,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-65 flex-col overflow-y-hidden duration-300 ease-linear lg:static lg:translate-x-0 ${
+      className={`absolute left-0 lg:top-[90px] lg:fixed z-9999 flex h-screen w-65 flex-col overflow-y-hidden duration-300 ease-linear lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
+      {/*
       <div className="flex items-center justify-between gap-2 px-6 border-b-[1px]">
         
         {/*
@@ -118,9 +119,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             />
           </svg>
         </button>
-        */}
+        */}{/*
         <Image src={Logo} alt={app_name} className="" height={48}  />
       </div>
+      */}
       {/* <!-- SIDEBAR HEADER --> */}
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
@@ -134,7 +136,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </h3>
     */}
     
-            <ul className="mb-6 flex flex-col gap-1.5">
+            <ul className="sidebar mb-6 flex flex-col gap-1.5">
 
               {/* <!-- Menu Item Calendar --> */}
               
