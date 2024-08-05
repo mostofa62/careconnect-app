@@ -322,7 +322,7 @@ export default function Insurance() {
         table.getRowModel().rows.map((row:any) => {
                     
                     return(
-                    <>                    
+                                        
                     
                     <tr 
                     ref={el => (rowRefs.current[row.original._id] = el)}
@@ -364,7 +364,7 @@ export default function Insurance() {
 
                       
                     
-                    </>
+                    
                     )
                 })}
                 </> 

@@ -1,20 +1,16 @@
 import { object, array, string, number, StringSchema } from "yup";
 export const DataSchema = {
     name:'',
-    address:'',
-    phoneNumber:'',
-    zipCode:'',
-    county:{'label':'','value':''},
+    designation:'',
+    phoneNumber:'',    
     agency:{'label':'','value':''},
 
 };
 
 export const DataLabel = {
     name:'Employee Name',
-    address:'Address',
-    phoneNumber:'Phone Number',
-    zipCode:'Zip Code',
-    county:'County',
+    designation:'Designation',
+    phoneNumber:'Phone Number',    
     agency:'Agency'
 }
 
@@ -48,23 +44,15 @@ export const ValidationSchema =  object().shape({
               .ensure()
               .required(`${DataLabel.name} is required`),
 
-              address: string()
+              designation: string()
               .ensure()
-              .required(`${DataLabel.address} is required`),
+              .required(`${DataLabel.designation} is required`),
 
               phoneNumber: string()
               .ensure()
+              .matches(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d*)\)?)[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?)+)(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i,`provide valid ${DataLabel.phoneNumber}`)
               .required(`${DataLabel.phoneNumber} is required`),
-
-              zipCode: string()
-              .ensure()
-              .required(`${DataLabel.zipCode} is required`),
-
-
-              county:object().shape({
-                value: string().required(),
-                label: string().required(`${DataLabel.county} is required`)
-              }),
+              
 
               agency:object().shape({
                 value: string().required(),
@@ -75,9 +63,4 @@ export const ValidationSchema =  object().shape({
 })
 });
 
-
-export const CountyData = [
-    {'value':'queens','label':'Queens'},
-    {'value':'nassau','label':'Nassau'},
-]
 
