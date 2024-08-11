@@ -93,10 +93,6 @@ export default function CareManagers() {
             accessorKey: 'phoneNumber',
             header: 'Phone',
         },
-        {
-            accessorKey: 'phoneNumber',
-            header: 'Phone',
-        },
 
         {
             accessorKey: 'agency',
