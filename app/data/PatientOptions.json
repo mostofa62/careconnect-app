@@ -1,0 +1,25 @@
+{
+
+    "ConsumerStatus" : [
+        {"value":1,"label":"Approved"},
+        {"value":2,"label":"Processing"},
+        {"value":3,"label":"Closed"}
+    ],
+    "CaseStatus" : [
+        {"value":1,"label":"Mainstream Plan"},
+        {"value":2,"label":"New to MLTC"},
+        {"value":3,"label":"Plan to Plan"},
+        {"value":4,"label":"Restriction Code"}
+    ],
+
+    "RestrictionCode":[
+        {"value":1,"label":"EP and H78"},
+        {"value":2,"label":"H78"},
+        {"value":3,"label":"Code 54"},
+        {"value":4,"label":"Code 54 with Medicare"},
+        {"value":5,"label":"Medicare Coinsurance Deductable Only"},
+        {"value":6,"label":"Emergency Services"},
+        {"value":7,"label":"Code 95"}
+    ]
+
+}
