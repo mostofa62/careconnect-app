@@ -10,6 +10,9 @@ export const DataSchema = {
     projected_encrollment_date:'',
     confirmed_encrollment_date:'',
 
+    internal_marketer:{'label':'','value':''},
+    external_marketer:{'label':'','value':''},
+
     first_name:'',
     middle_name:'',
     last_name:'',
@@ -45,6 +48,17 @@ export const DataSchema = {
     service_start_date:'',
     service_end_date:'',
 
+    service_type:{'label':'','value':''},
+    recertification:{'label':'','value':''},
+
+
+    primary_caregiver:{'label':'','value':''},
+    secondary_caregiver:{'label':'','value':''},
+
+    working_schedule: [
+      { weekDay: {'label':'','value':''}, from: 0, to: 0 },
+    ],
+
 
 };
 
@@ -58,6 +72,9 @@ export const DataLabel = {
     case_status:'Case Status',
     projected_encrollment_date:'Projected Enrollment Date',
     confirmed_encrollment_date:'Confirmed Enrollment Date',
+
+    internal_marketer:'Internal ( Bangladesh Team )',
+    external_marketer:'External ( Us Team )',
 
     first_name:'First Name',
     middle_name:'Middle Name',
@@ -94,6 +111,17 @@ export const DataLabel = {
     service_start_date:'Service Start Date',
     service_end_date:'Service End Date',
     
+
+    service_type:'Service Type',
+    recertification:'Recertification',
+
+    primary_caregiver:'Primary Caregiver',
+    secondary_caregiver:'Secondary Caregiver',
+
+    working_schedule:'Working Schedule',
+    weekDay:'Week Day',
+    from:'From',
+    to:'To'
 
 
 }

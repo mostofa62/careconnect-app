@@ -5,7 +5,7 @@ import { useState,useEffect, useRef, useMemo } from "react";
 import axios from "axios";
 import useAuth from '@/app/hooks/useAuth';
 import { useRouter } from "next/navigation";
-import {Formik, Field, yupToFormErrors, validateYupSchema} from 'formik';
+import {Formik, Field, yupToFormErrors, validateYupSchema, FieldArray} from 'formik';
 import { DataSchema,DataLabel,ValidationSchema } from "./DataValidationSchema";
 import SelectNonCreatableComponent from '@/app/components/SelectNonCreatableComponent';
 import FormikFormHolder from "@/app/components/form/FormikFormHolder";
@@ -20,10 +20,10 @@ import toast from 'react-hot-toast';
 import CountyData from '@/app/data/CountyData.json'
 import CityData from '@/app/data/CityData.json'
 
-import {ConsumerStatus, CaseStatus, RestrictionCode} from '@/app/data/PatientOptions.json'
+import {ConsumerStatus, CaseStatus, RestrictionCode, ServiceType, Recertification, WeekDays} from '@/app/data/PatientOptions.json'
 
 const url = process.env.NEXT_PUBLIC_API_URL;
-export default function InsuranceCreate() {
+export default function PatientCreate() {
     const authCtx = useAuth();
     const router = useRouter()
     const formRef = useRef<any>(null);    
@@ -33,12 +33,22 @@ export default function InsuranceCreate() {
     const fetchdata = fetchFomrData;
 
     const insuranceData = useFetchDropDownData({urlSuffix:'insurances-dropdown'});
+
+
+    const internalMarketerData = useFetchDropDownData({urlSuffix:`marketer-dropdown/1`});
+
+    const externalMarketerData = useFetchDropDownData({urlSuffix:`marketer-dropdown/2`});
+
+
+
+    const caregiverData = useFetchDropDownData({urlSuffix:`caregiver-dropdown`});    
+    
     
 
     const handleFormSubmit = async(values:any,{ resetForm }:any)=>{
         //alert(JSON.stringify(values));
 
-        await axios.post(`${url}save-caremanager`, 
+        await axios.post(`${url}save-patient`, 
             values.fetchdata, {
             
             headers: {
@@ -78,7 +88,7 @@ export default function InsuranceCreate() {
                 <div className="flex flex-row h-[29px]">
                     <div className="h-[21px] pt-[5px] pb-[3px]">
                             <Link
-                                    href={'/admin/insurrance/caremanagers'}
+                                    href={'/admin/patient'}
                                     className={`text-[21px] capitalize group relative flex items-center gap-2 rounded-sm py-[3px] font-medium duration-300 ease-in-out   text-[#0166FF]`}
                                 >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" width={15} height={15} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -275,6 +285,59 @@ export default function InsuranceCreate() {
         
     </div>
 </div>
+
+<p className="text-[16px] uppercase font-medium mt-5"> Marketer Section</p>
+
+<hr className="mt-2 border-stroke"/>
+
+
+<div className="flex flex-row">
+
+    <div className="w-[50%]">
+        <FormikSelectInput
+            label={DataLabel.internal_marketer}
+            defaultValue={fetchdata.internal_marketer}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.internal_marketer"
+            dataOptions={internalMarketerData}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.internal_marketer &&
+                touched.fetchdata &&
+                touched.fetchdata.internal_marketer &&
+                errors.fetchdata.internal_marketer.label
+            }
+        />
+        
+        
+    </div>        
+
+    <div className="ml-[24px] w-[50%]">
+
+    <FormikSelectInput
+            label={DataLabel.external_marketer}
+            defaultValue={fetchdata.external_marketer}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.external_marketer"
+            dataOptions={externalMarketerData}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.external_marketer &&
+                touched.fetchdata &&
+                touched.fetchdata.external_marketer &&
+                errors.fetchdata.external_marketer.label
+            }
+        />
+        
+        
+    </div>
+    
+    
+</div>
+
+
 
 <p className="text-[16px] uppercase font-medium mt-5"> Patient Section</p>
 
@@ -690,9 +753,202 @@ export default function InsuranceCreate() {
 </div>
 
 
+<div className="flex flex-row">
+    <div className="w-[50%]">
+        
+    <FormikSelectInput
+            label={DataLabel.service_type}
+            defaultValue={fetchdata.service_type}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.service_type"
+            dataOptions={ServiceType}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.service_type &&
+                touched.fetchdata &&
+                touched.fetchdata.service_type &&
+                errors.fetchdata.service_type.label
+            }
+        />
+        
+        
+        
+    </div>
+    
+    <div className="ml-[24px] w-[50%]">
+
+    <FormikSelectInput
+            label={DataLabel.recertification}
+            defaultValue={fetchdata.recertification}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.recertification"
+            dataOptions={Recertification}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.recertification &&
+                touched.fetchdata &&
+                touched.fetchdata.recertification &&
+                errors.fetchdata.recertification.label
+            }
+        />
+
+    
+        
+    </div>
+</div>
+
+
+<p className="text-[16px] uppercase font-medium mt-5"> Caregiver Section</p>
+
+<hr className="mt-2 border-stroke"/>
+
+
+<div className="flex flex-row">
+
+    <div className="w-[50%]">
+        <FormikSelectInput
+            label={DataLabel.primary_caregiver}
+            defaultValue={fetchdata.primary_caregiver}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.primary_caregiver"
+            dataOptions={caregiverData}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.primary_caregiver &&
+                touched.fetchdata &&
+                touched.fetchdata.primary_caregiver &&
+                errors.fetchdata.primary_caregiver.label
+            }
+        />
+        
+        
+    </div>        
+
+    <div className="ml-[24px] w-[50%]">
+
+    <FormikSelectInput
+            label={DataLabel.secondary_caregiver}
+            defaultValue={fetchdata.secondary_caregiver}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.secondary_caregiver"
+            dataOptions={caregiverData}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.secondary_caregiver &&
+                touched.fetchdata &&
+                touched.fetchdata.secondary_caregiver &&
+                errors.fetchdata.secondary_caregiver.label
+            }
+        />
+        
+        
+    </div>
+    
+    
+</div>
+
+
+
+<p className="text-[16px] uppercase font-medium mt-5"> Working Schedule Section</p>
+
+<hr className="mt-2 border-stroke"/>
+
+
+<div className="flex flex-row">
+
+    <div className="w-[100%]">
+
+    <FieldArray name="fetchdata.working_schedule">
+          {({ insert, remove, push }:any) => (
+            <div>
+              {values.fetchdata.working_schedule.length > 0 &&
+                values.fetchdata.working_schedule.map((field, index) => (
+                  <div key={index} className="flex flex-row">
+                    <div className="w-[30%]">
+
+                    <FormikSelectInput
+            label={DataLabel.weekDay}
+            defaultValue={fetchdata.working_schedule[index]?.weekDay}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name={`fetchdata.working_schedule.${index}.weekDay`}
+            dataOptions={WeekDays}
+            errorMessage={''}
+        />
+                    
+                    </div>
+                    <div className="ml-[10px] w-[25%]">                    
+                    <FormikFieldInput 
+                    type="number"
+                    min="0"
+                    max="23"
+                    label={DataLabel.from} 
+                    name={`fetchdata.working_schedule.${index}.from`}
+                    placeHolder={`${DataLabel.from}`}
+                    errorMessage ={''}        
+                    />
+                    </div>
+                    <div className="ml-[10px] w-[25%]"> 
+                    <FormikFieldInput 
+                    type="number"
+                    min="0"
+                    max="23"
+                    label={DataLabel.to} 
+                    name={`fetchdata.working_schedule.${index}.to`}
+                    placeHolder={`${DataLabel.to}`}
+                    errorMessage ={''}        
+                    />
+                    </div>
+                    
+                    
+                    <div className="ml-[10px] w-[20%]">
+                    <button
+                      type="button"
+                      className="bg-meta-1 rounded text-white mt-10 ml-8"
+                      onClick={() => remove(index)}
+                    >
+                      <p className="py-2 px-2">Remove</p>
+                    </button>
+                    </div>
+                    
+                    </div>
+
+                  
+                ))}
+
+            <div className="flex flex-row">
+                <div className="w-[30%]">    
+                    <button
+                        type="button"
+                        className=" bg-meta-5 rounded text-white mt-10 ml-8 flex items-center gap-2.5 py-1 px-2"
+                        onClick={() => push({ weekDay: {'label':'','value':''}, from: 0, to: 0 })}
+                    >
+
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={20} height={20} strokeWidth="1.5" stroke="currentColor" className="">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        <p className="py-2 px-2">Add More</p>
+                    </button>
+                </div>
+            </div>
+              
+            </div>
+          )}
+        </FieldArray>
+
+    </div>
+
+
+</div>
+
 {/*
 <div className="flex flex-row">
-    {JSON.stringify(values)}
+    {JSON.stringify(values.fetchdata.working_schedule)}
     {JSON.stringify(errors)}
 </div>
 */}
@@ -715,7 +971,7 @@ export default function InsuranceCreate() {
                     </div>
                     <div className="relative right-[30px] top-[10px]">
                     <Link
-                                    href={'/admin/insurrance/caremanagers'}
+                                    href={'/admin/patient'}
                                     className={`text-[15px] h-[40px] capitalize text-center px-4 py-2.5  font-semibold bg-[#0166FF] rounded bg-opacity-5 text-[#0166FF]`}
                                 >                               
 
