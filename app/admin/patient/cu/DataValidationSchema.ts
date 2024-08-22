@@ -55,9 +55,7 @@ export const DataSchema = {
     primary_caregiver:{'label':'','value':''},
     secondary_caregiver:{'label':'','value':''},
 
-    working_schedule: [
-      { weekDay: {'label':'','value':''}, from: 0, to: 0 },
-    ],
+    
 
 
 };
@@ -118,10 +116,7 @@ export const DataLabel = {
     primary_caregiver:'Primary Caregiver',
     secondary_caregiver:'Secondary Caregiver',
 
-    working_schedule:'Working Schedule',
-    weekDay:'Week Day',
-    from:'From',
-    to:'To'
+    
 
 
 }

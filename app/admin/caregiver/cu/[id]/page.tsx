@@ -5,7 +5,7 @@ import { useState,useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import useAuth from '@/app/hooks/useAuth';
 import { useRouter } from "next/navigation";
-import {Formik, Field, yupToFormErrors, validateYupSchema} from 'formik';
+import {Formik, Field, yupToFormErrors, validateYupSchema, FieldArray} from 'formik';
 import { DataSchema,DataLabel,ValidationSchema } from "../DataValidationSchema";
 import SelectNonCreatableComponent from '@/app/components/SelectNonCreatableComponent';
 import FormikFormHolder from "@/app/components/form/FormikFormHolder";
@@ -14,6 +14,8 @@ import FormikSelectInput from "@/app/components/form/FormikSelectInput";
 
 
 import toast from 'react-hot-toast';
+
+import {WeekDays} from '@/app/data/PatientOptions.json'
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 export default function CaregiverCreate({
@@ -43,8 +45,8 @@ export default function CaregiverCreate({
         fetchDataCallback();
     
     },[fetchDataCallback]);
-    const fetchdata = fetchFomrData;
-    console.log(fetchdata);
+    const fetchdata = {...DataSchema,...fetchFomrData};
+    
 
     const handleFormSubmit = async(values:any,{ resetForm }:any)=>{
         //alert(JSON.stringify(values));
@@ -267,6 +269,100 @@ export default function CaregiverCreate({
     
    
 </div>
+
+
+<p className="text-[16px] uppercase font-medium mt-5"> Working Schedule Section</p>
+
+<hr className="mt-2 border-stroke"/>
+
+<div className="flex flex-row">
+
+    <div className="w-[100%]">
+
+    <FieldArray name="fetchdata.working_schedule">
+          {({ insert, remove, push }:any) => (
+            <div>
+              {values.fetchdata.working_schedule.length > 0 &&
+                values.fetchdata.working_schedule.map((field, index) => (
+                  <div key={index} className="flex flex-row">
+                    <div className="w-[30%]">
+
+                    <FormikSelectInput
+            label={DataLabel.weekDay}
+            defaultValue={fetchdata?.working_schedule[index]?.weekDay}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name={`fetchdata.working_schedule.${index}.weekDay`}
+            dataOptions={WeekDays}
+            errorMessage={''}
+        />
+                    
+                    </div>
+                    <div className="ml-[10px] w-[25%]">                    
+                    <FormikFieldInput 
+                    type="number"
+                    min="0"
+                    max="23"
+                    label={DataLabel.from} 
+                    name={`fetchdata.working_schedule.${index}.from`}
+                    placeHolder={`${DataLabel.from}`}
+                    errorMessage ={''}        
+                    />
+                    </div>
+                    <div className="ml-[10px] w-[25%]"> 
+                    <FormikFieldInput 
+                    type="number"
+                    min="0"
+                    max="23"
+                    label={DataLabel.to} 
+                    name={`fetchdata.working_schedule.${index}.to`}
+                    placeHolder={`${DataLabel.to}`}
+                    errorMessage ={''}        
+                    />
+                    </div>
+                    
+                    
+                    <div className="ml-[10px] w-[20%]">
+                    <button
+                      type="button"
+                      className="bg-meta-1 rounded text-white mt-10 ml-8"
+                      onClick={() => remove(index)}
+                    >
+                      <p className="py-2 px-2">Remove</p>
+                    </button>
+                    </div>
+                    
+                    </div>
+
+                  
+                ))}
+
+            <div className="flex flex-row">
+                <div className="w-[30%]">    
+                    <button
+                        type="button"
+                        className=" bg-meta-5 rounded text-white mt-10 ml-8 flex items-center gap-2.5 py-1 px-2"
+                        onClick={() => push({ weekDay: {'label':'','value':''}, from: 0, to: 0 })}
+                    >
+
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={20} height={20} strokeWidth="1.5" stroke="currentColor" className="">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        <p className="py-2 px-2">Add More</p>
+                    </button>
+                </div>
+            </div>
+              
+            </div>
+          )}
+        </FieldArray>
+
+    </div>
+
+
+</div>
+
 {/*
 <div className="flex flex-row">
     {JSON.stringify(values)}

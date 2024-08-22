@@ -6,7 +6,11 @@ export const DataSchema = {
     email:'',
     ssn:'',
     bank_acc_no:'',
-    bank_routing_no:''
+    bank_routing_no:'',
+
+    working_schedule: [
+      { weekDay: {'label':'','value':''}, from: 0, to: 0 },
+    ],
     
     
 };
@@ -18,7 +22,12 @@ export const DataLabel = {
     email:'Email',
     ssn:'SSN',
     bank_acc_no:'Bank Account Number',
-    bank_routing_no:'Bank Routing Number'
+    bank_routing_no:'Bank Routing Number',
+
+    working_schedule:'Working Schedule',
+    weekDay:'Week Day',
+    from:'From',
+    to:'To'
        
 }
 
