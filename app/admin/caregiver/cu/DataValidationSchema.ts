@@ -9,8 +9,22 @@ export const DataSchema = {
     bank_routing_no:'',
 
     working_schedule: [
-      { weekDay: {'label':'','value':''}, from: 0, to: 0 },
+      { 
+        weekDay: {'label':'','value':''}, 
+        from: {'label':'','value':''},
+        to: {'label':'','value':''},
+        from_am: {'label':'','value':''},
+        to_am:{'label':'','value':''}
+      },
     ],
+
+    //attachments
+
+    photo_attachment_id:'',
+    ssn_attachment_id:'',
+    bank_attachment_id:'',
+    physical_form_attachment_id:'',
+    wfour_form_attachment_id:''
     
     
 };
@@ -27,7 +41,15 @@ export const DataLabel = {
     working_schedule:'Working Schedule',
     weekDay:'Week Day',
     from:'From',
-    to:'To'
+    to:'To',
+
+    am_pm:'AM / PM',
+
+    photo_attachment_id:'Photo ID',
+    ssn_attachment_id:'SSN',
+    bank_attachment_id:'Bank Documents',
+    physical_form_attachment_id:'Physical Form',
+    wfour_form_attachment_id:'W4 Form'
        
 }
 

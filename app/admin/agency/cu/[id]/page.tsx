@@ -116,7 +116,7 @@ export default function AgencyCreate({
             
             </div>
 
-            <div className="mt-[32px]">
+            <div className="mt-[32px] w-[70%]">
             <Formik
             innerRef={formRef}
         initialValues={{ fetchdata }}

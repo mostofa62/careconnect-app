@@ -15,7 +15,9 @@ import FormikSelectInput from "@/app/components/form/FormikSelectInput";
 
 import toast from 'react-hot-toast';
 
-import {WeekDays} from '@/app/data/PatientOptions.json'
+import {WeekDays, WorkingHour, TimeAmPm} from '@/app/data/PatientOptions.json'
+import FileUpload from "@/app/components/utils/FileUpload";
+import CardLegendHolder from "@/app/components/ui/CardLegendHolder";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 export default function CaregiverCreate({
@@ -30,6 +32,12 @@ export default function CaregiverCreate({
     const router = useRouter()
     const formRef = useRef<any>(null);
 
+    const [photoId,setPhotoId] = useState<string>('');
+    const [ssnId,setSsnId] = useState<string>('');
+    const [bankAttchId,setBankAttchId] = useState<string>('');
+    const [phyFormId,setPhyFormId] = useState<string>('');
+    const [wfourId,setWfourId] = useState<string>('');
+
     const [fetchFomrData,setFetchFormData] = useState(DataSchema);
     //console.log(fetchFomrData)
     
@@ -40,6 +48,12 @@ export default function CaregiverCreate({
         const response = await axios.get(`${url}caregiver/${id}`);
         //return response.data.user;
         setFetchFormData(response.data.caregiver);
+        setPhotoId(response.data.caregiver.photo_attachment_id)
+        setSsnId(response.data.caregiver.ssn_attachment_id)
+        setBankAttchId(response.data.caregiver.bank_attachment_id)
+        setPhyFormId(response.data.caregiver.physical_form_attachment_id)
+        setWfourId(response.data.caregiver.wfour_form_attachment_id)
+        
     },[id]);
     useEffect(()=>{
         fetchDataCallback();
@@ -50,9 +64,22 @@ export default function CaregiverCreate({
 
     const handleFormSubmit = async(values:any,{ resetForm }:any)=>{
         //alert(JSON.stringify(values));
+
+        const photo_attachment_id = photoId;
+        const ssn_attachment_id = ssnId;
+        const bank_attachment_id = bankAttchId;
+        const physical_form_attachment_id = phyFormId;
+        const wfour_form_attachment_id = wfourId;
         
         await axios.post(`${url}save-caregiver/${id}`, 
-            values.fetchdata, {
+            {
+                ...values.fetchdata,
+                photo_attachment_id,
+                ssn_attachment_id,
+                bank_attachment_id,
+                physical_form_attachment_id,
+                wfour_form_attachment_id
+                }, {
             
             headers: {
               'Content-Type': 'application/json'
@@ -121,7 +148,8 @@ export default function CaregiverCreate({
             
             </div>
 
-            <div className="mt-[32px]">
+            <div className="mt-[32px] flex flex-row gap-2">
+            <div className="w-[70%]">
             <Formik
             innerRef={formRef}
         initialValues={{ fetchdata }}
@@ -135,7 +163,7 @@ export default function CaregiverCreate({
             <FormikFormHolder legend="Caregiver Details">
 
 <div className="flex flex-row">
-    <div className="w-[50%]">
+    <div className="w-full">
         
         <FormikFieldInput 
         label={DataLabel.name} 
@@ -275,9 +303,9 @@ export default function CaregiverCreate({
 
 <hr className="mt-2 border-stroke"/>
 
-<div className="flex flex-row">
+<div className="flex flex-row mt-5">
 
-    <div className="w-[100%]">
+    <div className="w-full">
 
     <FieldArray name="fetchdata.working_schedule">
           {({ insert, remove, push }:any) => (
@@ -285,11 +313,11 @@ export default function CaregiverCreate({
               {values.fetchdata.working_schedule.length > 0 &&
                 values.fetchdata.working_schedule.map((field, index) => (
                   <div key={index} className="flex flex-row">
-                    <div className="w-[30%]">
+                    <div className="w-[20%]">
 
                     <FormikSelectInput
             label={DataLabel.weekDay}
-            defaultValue={fetchdata?.working_schedule[index]?.weekDay}
+            defaultValue={fetchdata.working_schedule[index]?.weekDay}
             placeHolder={``}
             isSearchable={true}
             isClearable={true}
@@ -299,34 +327,66 @@ export default function CaregiverCreate({
         />
                     
                     </div>
-                    <div className="ml-[10px] w-[25%]">                    
-                    <FormikFieldInput 
-                    type="number"
-                    min="0"
-                    max="23"
-                    label={DataLabel.from} 
-                    name={`fetchdata.working_schedule.${index}.from`}
-                    placeHolder={`${DataLabel.from}`}
-                    errorMessage ={''}        
-                    />
+                    <div className="ml-[10px] w-[35%] grid grid-cols-2 gap-1 items-center justify-center">
+                        <div className="w-full">                    
+                                <FormikSelectInput
+                                label={DataLabel.from}
+                                defaultValue={fetchdata.working_schedule[index]?.from}
+                                placeHolder={``}
+                                isSearchable={true}
+                                isClearable={true}
+                                name={`fetchdata.working_schedule.${index}.from`}
+                                dataOptions={WorkingHour}
+                                errorMessage={''}
+                            />
+                        </div>
+                        <div className="w-full">
+                        <FormikSelectInput
+                            label={DataLabel.am_pm}
+                            defaultValue={fetchdata.working_schedule[index]?.from_am}
+                            placeHolder={``}
+                            isSearchable={true}
+                            isClearable={true}
+                            name={`fetchdata.working_schedule.${index}.from_am`}
+                            dataOptions={TimeAmPm}
+                            errorMessage={''}
+                        />
+                        </div>
                     </div>
-                    <div className="ml-[10px] w-[25%]"> 
-                    <FormikFieldInput 
-                    type="number"
-                    min="0"
-                    max="23"
-                    label={DataLabel.to} 
-                    name={`fetchdata.working_schedule.${index}.to`}
-                    placeHolder={`${DataLabel.to}`}
-                    errorMessage ={''}        
-                    />
+                    <div className="ml-[10px] w-[35%] grid grid-cols-2 gap-1 items-center justify-center"> 
+                    <div className="w-full">
+                        <FormikSelectInput
+                            label={DataLabel.to}
+                            defaultValue={fetchdata.working_schedule[index]?.to}
+                            placeHolder={``}
+                            isSearchable={true}
+                            isClearable={true}
+                            name={`fetchdata.working_schedule.${index}.to`}
+                            dataOptions={WorkingHour}
+                            errorMessage={''}
+                        />
+                    </div>
+                    
+                    <div className="w-full">
+                        <FormikSelectInput
+                            label={DataLabel.am_pm}
+                            defaultValue={fetchdata.working_schedule[index]?.to_am}
+                            placeHolder={``}
+                            isSearchable={true}
+                            isClearable={true}
+                            name={`fetchdata.working_schedule.${index}.to_am`}
+                            dataOptions={TimeAmPm}
+                            errorMessage={''}
+                        />
+                    </div>
+
                     </div>
                     
                     
-                    <div className="ml-[10px] w-[20%]">
+                    <div className="w-[10%] ml-[10px]">
                     <button
                       type="button"
-                      className="bg-meta-1 rounded text-white mt-10 ml-8"
+                      className="bg-meta-1 rounded text-white mt-8"
                       onClick={() => remove(index)}
                     >
                       <p className="py-2 px-2">Remove</p>
@@ -343,7 +403,13 @@ export default function CaregiverCreate({
                     <button
                         type="button"
                         className=" bg-meta-5 rounded text-white mt-10 ml-8 flex items-center gap-2.5 py-1 px-2"
-                        onClick={() => push({ weekDay: {'label':'','value':''}, from: 0, to: 0 })}
+                        onClick={() => push({ 
+                            weekDay: {'label':'','value':''}, 
+                            from: {'label':'','value':''},
+                            to: {'label':'','value':''},
+                            from_am: {'label':'','value':''},
+                            to_am:{'label':'','value':''}
+                          })}
                     >
 
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={20} height={20} strokeWidth="1.5" stroke="currentColor" className="">
@@ -373,6 +439,163 @@ export default function CaregiverCreate({
 </FormikFormHolder>
         )}
         />
+            </div>
+
+
+            <div className="w-[30%]">
+
+            <CardLegendHolder legend={`Attachments`}>
+
+            <div className="flex flex-row">
+
+                <div className="w-full">
+
+                <div className="flex flex-col">
+                        <div className="h-[90px] w-full">
+                            <FileUpload
+                            label={DataLabel.ssn}
+                            allowed_extension={['png','jpg','jpeg','pdf']} 
+                            onFileUpload={(fileId: string)=>{ setSsnId(fileId) }} chunkUrl={`${url}upload-chunk/patientssn`} />
+                        </div>
+                        {ssnId!='' &&
+                        <div className="w-full mt-1 mb-5 h-8">
+                            <div className="flex flex-row items-center justify-center">
+                                <div className="w-[70%] flex justify-center">
+                                    <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${ssnId}`}>
+                                        Download / Preview
+                                    </Link>
+                                </div>
+                                <div className="w-[30%] flex justify-center">
+                                    <button onClick={()=>{ setSsnId('')}} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+
+                    <div className="flex flex-col">
+                        <div className="h-[90px] w-full">
+                            <FileUpload
+                            label={DataLabel.photo_attachment_id}
+                            allowed_extension={['png','jpg','jpeg']} 
+                            onFileUpload={(fileId: string)=>{ setPhotoId(fileId) }} chunkUrl={`${url}upload-chunk/patientphotoid`} />
+                        </div>
+                        {photoId!='' &&
+                        <div className="w-full mt-1 mb-5 h-8">
+                            <div className="flex flex-row items-center justify-center">
+                                <div className="w-[70%] flex justify-center">
+                                    <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${photoId}`}>
+                                        Download / Preview
+                                    </Link>
+                                </div>
+                                <div className="w-[30%] flex justify-center">
+                                    <button onClick={()=>{ setPhotoId('')}} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+
+
+                    <div className="flex flex-col">
+                        <div className="h-[90px] w-full">
+                            <FileUpload
+                            label={DataLabel.bank_attachment_id}
+                            allowed_extension={['png','jpg','jpeg','pdf']} 
+                            onFileUpload={(fileId: string)=>{ setBankAttchId(fileId) }} chunkUrl={`${url}upload-chunk/patientbankdoc`} />
+                        </div>
+                        {bankAttchId!='' &&
+                        <div className="w-full mt-1 mb-5 h-8">
+                            <div className="flex flex-row items-center justify-center">
+                                <div className="w-[70%] flex justify-center">
+                                    <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${bankAttchId}`}>
+                                        Download / Preview
+                                    </Link>
+                                </div>
+                                <div className="w-[30%] flex justify-center">
+                                    <button onClick={()=>{ setBankAttchId('')}} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+
+                    <div className="flex flex-col">
+                        <div className="h-[90px] w-full">
+                            <FileUpload
+                            label={DataLabel.physical_form_attachment_id}
+                            allowed_extension={['png','jpg','jpeg','pdf']} 
+                            onFileUpload={(fileId: string)=>{ setPhyFormId(fileId) }} chunkUrl={`${url}upload-chunk/patientphysicalform`} />
+                        </div>
+                        {phyFormId!='' &&
+                        <div className="w-full mt-1 mb-5 h-8">
+                            <div className="flex flex-row items-center justify-center">
+                                <div className="w-[70%] flex justify-center">
+                                    <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${phyFormId}`}>
+                                        Download / Preview
+                                    </Link>
+                                </div>
+                                <div className="w-[30%] flex justify-center">
+                                    <button onClick={()=>{ setPhyFormId('')}} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+
+
+                    <div className="flex flex-col">
+                        <div className="h-[90px] w-full">
+                            <FileUpload
+                            label={DataLabel.wfour_form_attachment_id}
+                            allowed_extension={['png','jpg','jpeg','pdf']} 
+                            onFileUpload={(fileId: string)=>{ setWfourId(fileId) }} chunkUrl={`${url}upload-chunk/patientwfour`} />
+                        </div>
+                        {wfourId!='' &&
+                        <div className="w-full mt-1 mb-5 h-8">
+                            <div className="flex flex-row items-center justify-center">
+                                <div className="w-[70%] flex justify-center">
+                                    <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${wfourId}`}>
+                                        Download / Preview
+                                    </Link>
+                                </div>
+                                <div className="w-[30%] flex justify-center">
+                                    <button onClick={()=>{ setWfourId('')}} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+
+                    
+
+
+                    
+                </div>
+
+
+            </div>
+            </CardLegendHolder>
+
+
+
+            </div>
+
             </div>
             
 
