@@ -10,7 +10,7 @@ interface FileUploadProps {
   max_file_size?:number;
 }
 
-const CHUNK_SIZE = 1024 * 100; // 1MB chunk size
+const CHUNK_SIZE = 1024 * 512; // 512kb chunk size
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB max file size
 const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'pdf', 'docx']; // Add the allowed extensions here
 

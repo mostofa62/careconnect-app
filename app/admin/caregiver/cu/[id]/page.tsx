@@ -163,7 +163,7 @@ export default function CaregiverCreate({
             <FormikFormHolder legend="Caregiver Details">
 
 <div className="flex flex-row">
-    <div className="w-full">
+    <div className="w-[50%]">
         
         <FormikFieldInput 
         label={DataLabel.name} 
