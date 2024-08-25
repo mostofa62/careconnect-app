@@ -19,6 +19,7 @@ interface DataRow {
     name: string;
     address:string;
     type:string;
+    contract_type:string;
     state:string;
     email:string;
     phoneNumber: string;
@@ -99,6 +100,11 @@ export default function Marketer() {
     {
       accessorKey: 'type.label',
       header: 'Type',
+    },
+
+    {
+      accessorKey: 'contract_type.label',
+      header: 'Contract Type',
     },
     
     {

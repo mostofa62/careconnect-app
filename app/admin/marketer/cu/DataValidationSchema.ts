@@ -5,6 +5,8 @@ export const DataSchema = {
     phoneNumber:'',
     email:'',
     type:{'label':'','value':''},
+    contract_type:{'label':'','value':''},
+    contract_doc_id:''
     
 };
 
@@ -13,7 +15,9 @@ export const DataLabel = {
     address:'Address',
     phoneNumber:'Phone Number',
     email:'Email',
-    type:'Type'    
+    type:'Type',
+    contract_type:'Contract Type',
+    contract_doc_id:'Contract Document'    
 }
 
 export const ValidationSchema =  object().shape({
@@ -58,6 +62,11 @@ export const ValidationSchema =  object().shape({
               type:object().shape({
                 value: string().required(),
                 label: string().required(`${DataLabel.type} is required`)
+              }),
+
+              contract_type:object().shape({
+                value: string().required(),
+                label: string().required(`${DataLabel.contract_type} is required`)
               }),
 
               

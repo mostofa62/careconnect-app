@@ -12,9 +12,11 @@ import FormikFormHolder from "@/app/components/form/FormikFormHolder";
 import FormikFieldInput from "@/app/components/form/FormikFieldInput";
 import FormikSelectInput from "@/app/components/form/FormikSelectInput";
 
-import {MarketerType} from "@/app/data/PatientOptions.json"
+import {MarketerType, MarketerContracType} from "@/app/data/PatientOptions.json"
 
 import toast from 'react-hot-toast';
+import CardLegendHolder from "@/app/components/ui/CardLegendHolder";
+import FileUpload from "@/app/components/utils/FileUpload";
 
 
 const url = process.env.NEXT_PUBLIC_API_URL;
@@ -24,14 +26,20 @@ export default function MarketerCreate() {
     const formRef = useRef<any>(null);
 
     const [fetchFomrData,setFetchFormData] = useState(DataSchema);
+    const [contractDoc,setContractDoc] = useState<string>('');
 
     const fetchdata = fetchFomrData;
 
     const handleFormSubmit = async(values:any,{ resetForm }:any)=>{
         //alert(JSON.stringify(values));
 
+        const contract_doc_id = contractDoc;
+
         await axios.post(`${url}save-marketer`, 
-            values.fetchdata, {
+            {
+                ...values.fetchdata,
+                contract_doc_id
+            }, {
             
             headers: {
               'Content-Type': 'application/json'
@@ -45,6 +53,7 @@ export default function MarketerCreate() {
           }else{
             toast.success(response.data.message);
             resetForm();
+            setContractDoc('');
           }         
           
         })
@@ -88,7 +97,8 @@ export default function MarketerCreate() {
             
             </div>
 
-            <div className="mt-[32px]">
+            <div className="mt-[32px] flex flex-row gap-2">
+            <div className="w-[70%]">
             <Formik
             innerRef={formRef}
         initialValues={{ fetchdata }}
@@ -99,6 +109,8 @@ export default function MarketerCreate() {
 
         render={({isValid, handleChange, isSubmitting,values,errors, touched, setFieldValue, setFieldTouched})=>(
             <FormikFormHolder legend="Marketer Details">
+
+
 
 <div className="flex flex-row">
     <div className="w-[50%]">
@@ -198,6 +210,26 @@ export default function MarketerCreate() {
         />
                 
     </div>
+
+
+    <div className="ml-[24px] w-[50%]">
+        <FormikSelectInput
+        label={DataLabel.contract_type}
+        defaultValue={fetchdata.contract_type}
+        placeHolder={`Select ${DataLabel.contract_type}`}
+        isSearchable={true}
+        isClearable={true}
+        name="fetchdata.contract_type"
+        dataOptions={MarketerContracType}
+        errorMessage={errors.fetchdata &&
+            errors.fetchdata.contract_type &&
+            touched.fetchdata &&
+            touched.fetchdata.contract_type &&
+            errors.fetchdata.contract_type.label
+        }
+        />
+                
+    </div>
     
     
     
@@ -214,6 +246,55 @@ export default function MarketerCreate() {
 </FormikFormHolder>
         )}
         />
+
+        </div>
+
+        <div className="w-[30%]">
+
+        <CardLegendHolder legend={`Attachments`}>
+
+        <div className="flex flex-row">
+
+<div className="w-full">
+
+<div className="flex flex-col">
+        <div className="h-[90px] w-full">
+            <FileUpload
+            label={DataLabel.contract_doc_id}
+            allowed_extension={['png','jpg','jpeg','pdf']} 
+            onFileUpload={(fileId: string)=>{ setContractDoc(fileId) }} chunkUrl={`${url}upload-chunk/marketercontractdoc`} />
+        </div>
+        {contractDoc!='' &&
+        <div className="w-full mt-1 mb-5 h-8">
+            <div className="flex flex-row items-center justify-center">
+                <div className="w-[70%] flex justify-center">
+                    <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${contractDoc}`}>
+                        Download / Preview
+                    </Link>
+                </div>
+                <div className="w-[30%] flex justify-center">
+                    <button onClick={()=>{ setContractDoc('')}} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                        Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+    </div>
+
+    </div>
+
+
+
+
+        </CardLegendHolder>
+
+
+
+        </div>
+
             </div>
             
 

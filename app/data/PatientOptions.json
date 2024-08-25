@@ -75,6 +75,11 @@
     "TimeAmPm":[
         {"value":"am","label":"AM"},
         {"value":"pm","label":"PM"}
+    ],
+
+    "MarketerContracType":[
+        {"value":1,"label":"SSN/EN"}
+        
     ]
 
 }

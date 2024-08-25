@@ -455,7 +455,7 @@ export default function CaregiverCreate({
                             <FileUpload
                             label={DataLabel.ssn}
                             allowed_extension={['png','jpg','jpeg','pdf']} 
-                            onFileUpload={(fileId: string)=>{ setSsnId(fileId) }} chunkUrl={`${url}upload-chunk/patientssn`} />
+                            onFileUpload={(fileId: string)=>{ setSsnId(fileId) }} chunkUrl={`${url}upload-chunk/caregiverssn`} />
                         </div>
                         {ssnId!='' &&
                         <div className="w-full mt-1 mb-5 h-8">
@@ -481,7 +481,7 @@ export default function CaregiverCreate({
                             <FileUpload
                             label={DataLabel.photo_attachment_id}
                             allowed_extension={['png','jpg','jpeg']} 
-                            onFileUpload={(fileId: string)=>{ setPhotoId(fileId) }} chunkUrl={`${url}upload-chunk/patientphotoid`} />
+                            onFileUpload={(fileId: string)=>{ setPhotoId(fileId) }} chunkUrl={`${url}upload-chunk/caregiverphotoid`} />
                         </div>
                         {photoId!='' &&
                         <div className="w-full mt-1 mb-5 h-8">
@@ -508,7 +508,7 @@ export default function CaregiverCreate({
                             <FileUpload
                             label={DataLabel.bank_attachment_id}
                             allowed_extension={['png','jpg','jpeg','pdf']} 
-                            onFileUpload={(fileId: string)=>{ setBankAttchId(fileId) }} chunkUrl={`${url}upload-chunk/patientbankdoc`} />
+                            onFileUpload={(fileId: string)=>{ setBankAttchId(fileId) }} chunkUrl={`${url}upload-chunk/caregiverbankdoc`} />
                         </div>
                         {bankAttchId!='' &&
                         <div className="w-full mt-1 mb-5 h-8">
@@ -534,7 +534,7 @@ export default function CaregiverCreate({
                             <FileUpload
                             label={DataLabel.physical_form_attachment_id}
                             allowed_extension={['png','jpg','jpeg','pdf']} 
-                            onFileUpload={(fileId: string)=>{ setPhyFormId(fileId) }} chunkUrl={`${url}upload-chunk/patientphysicalform`} />
+                            onFileUpload={(fileId: string)=>{ setPhyFormId(fileId) }} chunkUrl={`${url}upload-chunk/caregiverphysicalform`} />
                         </div>
                         {phyFormId!='' &&
                         <div className="w-full mt-1 mb-5 h-8">
@@ -561,7 +561,7 @@ export default function CaregiverCreate({
                             <FileUpload
                             label={DataLabel.wfour_form_attachment_id}
                             allowed_extension={['png','jpg','jpeg','pdf']} 
-                            onFileUpload={(fileId: string)=>{ setWfourId(fileId) }} chunkUrl={`${url}upload-chunk/patientwfour`} />
+                            onFileUpload={(fileId: string)=>{ setWfourId(fileId) }} chunkUrl={`${url}upload-chunk/caregiverwfour`} />
                         </div>
                         {wfourId!='' &&
                         <div className="w-full mt-1 mb-5 h-8">
