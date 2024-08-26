@@ -21,8 +21,13 @@ import CountyData from '@/app/data/CountyData.json'
 import CityData from '@/app/data/CityData.json'
 
 import {ConsumerStatus, CaseStatus, RestrictionCode, ServiceType, Recertification, WeekDays} from '@/app/data/PatientOptions.json'
+import CardLegendHolder from "@/app/components/ui/CardLegendHolder";
+import FileUpload from "@/app/components/utils/FileUpload";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
+
+
+
 export default function PatientCreate() {
     const authCtx = useAuth();
     const router = useRouter()
@@ -41,15 +46,41 @@ export default function PatientCreate() {
 
 
 
-    const caregiverData = useFetchDropDownData({urlSuffix:`caregiver-dropdown`});    
+    const caregiverData = useFetchDropDownData({urlSuffix:`caregiver-dropdown`});
+
+    const patientFormData = {
+        nyia_form_id:'',
+        doh_form_id:'',
+        m11q_form_id:'',
+        enrollment_doc_id:'',
+        mou_form_id:''
+    }
+    
+    const [patientForm, setPatientForm] = useState<any>(patientFormData)
+
+    const patientCodeFormData = {
+        letterofsupport_id:'',
+        supplymentaform_id:'',
+        bankstatement_id:'',
+        addn_doc_id1:'',
+        addn_doc_id2:''
+    }
+
+    const [patientCodeForm, setPatientCodeForm] = useState<any>(patientCodeFormData)
     
     
 
     const handleFormSubmit = async(values:any,{ resetForm }:any)=>{
         //alert(JSON.stringify(values));
+        const merge_data = {
+
+            ...values.fetchdata,
+            ...patientForm,
+            ...patientCodeForm
+        }
 
         await axios.post(`${url}save-patient`, 
-            values.fetchdata, {
+            merge_data, {
             
             headers: {
               'Content-Type': 'application/json'
@@ -63,6 +94,8 @@ export default function PatientCreate() {
           }else{
             toast.success(response.data.message);
             resetForm();
+            setPatientForm(patientFormData)
+            setPatientCodeForm(patientCodeFormData)
           }         
           
         })
@@ -106,7 +139,9 @@ export default function PatientCreate() {
             
             </div>
 
-            <div className="mt-[32px] w-[70%]">
+            <div className="mt-[32px] flex flex-row gap-2">
+
+                <div className="w-[70%] ">
             <Formik
             innerRef={formRef}
         initialValues={{ fetchdata }}
@@ -805,51 +840,76 @@ export default function PatientCreate() {
 <hr className="mt-2 border-stroke"/>
 
 
-<div className="flex flex-row">
+<div className="flex flex-row mt-5">
 
-    <div className="w-[50%]">
-        <FormikSelectInput
-            label={DataLabel.primary_caregiver}
-            defaultValue={fetchdata.primary_caregiver}
+    <div className="w-full">
+
+    <FieldArray name="fetchdata.caregiver">
+          {({ insert, remove, push }:any) => (
+            <div>
+              {values.fetchdata.caregiver.length > 0 &&
+                values.fetchdata.caregiver.map((field, index) => (
+                  <div key={index} className="flex flex-row">
+                    <div className="w-[50%] mt-1">
+
+                    <FormikSelectInput
+            label={`${DataLabel.caregiver} ${index+1}`}
+            defaultValue={fetchdata.caregiver[index]}
             placeHolder={``}
             isSearchable={true}
             isClearable={true}
-            name="fetchdata.primary_caregiver"
+            name={`fetchdata.caregiver.${index}`}
             dataOptions={caregiverData}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.primary_caregiver &&
-                touched.fetchdata &&
-                touched.fetchdata.primary_caregiver &&
-                errors.fetchdata.primary_caregiver.label
-            }
+            errorMessage={''}
         />
-        
-        
-    </div>        
 
-    <div className="ml-[24px] w-[50%]">
+                    
+                    </div>
+                    
+                    
+                    
+                    <div className="w-[10%] ml-[20px]">
+                    <button
+                      type="button"
+                      className="bg-meta-1 rounded text-white mt-9"
+                      onClick={() => remove(index)}
+                    >
+                      <p className="py-2 px-2">Remove</p>
+                    </button>
+                    </div>
+                    
+                    </div>
 
-    <FormikSelectInput
-            label={DataLabel.secondary_caregiver}
-            defaultValue={fetchdata.secondary_caregiver}
-            placeHolder={``}
-            isSearchable={true}
-            isClearable={true}
-            name="fetchdata.secondary_caregiver"
-            dataOptions={caregiverData}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.secondary_caregiver &&
-                touched.fetchdata &&
-                touched.fetchdata.secondary_caregiver &&
-                errors.fetchdata.secondary_caregiver.label
-            }
-        />
-        
-        
+                  
+                ))}
+
+            <div className="flex flex-row">
+                <div className="w-[30%]">    
+                    <button
+                        type="button"
+                        className=" bg-meta-5 rounded text-white mt-10 ml-8 flex items-center gap-2.5 py-1 px-2"
+                        onClick={() => push({'label':'','value':''})}
+                    >
+
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={20} height={20} strokeWidth="1.5" stroke="currentColor" className="">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        <p className="py-2 px-2">Add More</p>
+                    </button>
+                </div>
+            </div>
+              
+            </div>
+          )}
+        </FieldArray>
+
     </div>
-    
-    
+
+
 </div>
+
+
+
 
 
 
@@ -865,6 +925,123 @@ export default function PatientCreate() {
 </FormikFormHolder>
         )}
         />
+
+        </div>
+        <div className="w-[30%]">
+
+
+        <CardLegendHolder legend={`Patients Form`}>
+
+            <div className="flex flex-row">
+                <div className="w-full">
+                {
+                    Object.keys(patientFormData).map((key, index) => {
+                        const label = DataLabel[key];
+
+                        
+                        return(
+                        <div className="flex flex-col" key={index}>
+                            <div className="h-[90px] w-full">
+                            <FileUpload
+                            label={label}
+                            allowed_extension={['png','jpg','jpeg','pdf','docx']} 
+                            onFileUpload={(fileId: string)=>{
+                                const settingData:any = {...patientForm, [key]:fileId } 
+                                setPatientForm(settingData) 
+                            }} chunkUrl={`${url}upload-chunk/patient_${key}`} />
+                            </div>
+
+                            {patientForm[key]!='' &&
+                            <div className="w-full mt-1 mb-5 h-8">
+                                <div className="flex flex-row items-center justify-center">
+                                    <div className="w-[70%] flex justify-center">
+                                        <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientForm[key]}`}>
+                                            Download / Preview
+                                        </Link>
+                                    </div>
+                                    <div className="w-[30%] flex justify-center">
+                                        <button onClick={()=>{ 
+                                            const settingData:any = {...patientForm, [key]:'' }
+                                            setPatientForm(settingData)
+                                        }} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                                            Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+
+                        </div>
+                        )
+
+                    })
+
+                }
+                
+                
+
+                </div>
+            </div>
+
+        </CardLegendHolder>
+
+
+        <CardLegendHolder legend={`Patients Code related forms`}>
+
+            <div className="flex flex-row">
+                <div className="w-full">
+                {
+                    Object.keys(patientCodeFormData).map((key, index) => {
+                        const label = DataLabel[key];
+
+                        
+                        return(
+                        <div className="flex flex-col" key={index}>
+                            <div className="h-[90px] w-full">
+                            <FileUpload
+                            label={label}
+                            allowed_extension={['png','jpg','jpeg','pdf','docx']} 
+                            onFileUpload={(fileId: string)=>{
+                                const settingData:any = {...patientCodeForm, [key]:fileId } 
+                                setPatientCodeForm(settingData) 
+                            }} chunkUrl={`${url}upload-chunk/patient_${key}`} />
+                            </div>
+
+                            {patientCodeForm[key]!='' &&
+                            <div className="w-full mt-1 mb-5 h-8">
+                                <div className="flex flex-row items-center justify-center">
+                                    <div className="w-[70%] flex justify-center">
+                                        <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientCodeForm[key]}`}>
+                                            Download / Preview
+                                        </Link>
+                                    </div>
+                                    <div className="w-[30%] flex justify-center">
+                                        <button onClick={()=>{ 
+                                            const settingData:any = {...patientCodeForm, [key]:'' }
+                                            setPatientCodeForm(settingData)
+                                        }} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                                            Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+
+                        </div>
+                        )
+
+                    })
+
+                }
+                
+                
+
+                </div>
+            </div>
+
+        </CardLegendHolder>
+
+        </div>
             </div>
             
 

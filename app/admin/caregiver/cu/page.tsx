@@ -17,7 +17,7 @@ import toast from 'react-hot-toast';
 import {WeekDays, WorkingHour, TimeAmPm} from '@/app/data/PatientOptions.json'
 import FileUpload from "@/app/components/utils/FileUpload";
 import CardLegendHolder from "@/app/components/ui/CardLegendHolder";
-
+import {calculateTimeDifference} from '@/app/utils/Utils';
 
 
 const url = process.env.NEXT_PUBLIC_API_URL;
@@ -87,6 +87,8 @@ export default function CaregiverCreate() {
     const handleSubmit = ()=> {
         formRef.current?.handleSubmit();
       }
+
+    
 
     return(
         <>
@@ -393,8 +395,49 @@ export default function CaregiverCreate() {
 
     </div>
 
+    
+
 
 </div>
+
+{ values.fetchdata.working_schedule.length > 0 && (
+    <div className="flex flex-row mt-5">
+     <div className="w-full">
+
+        <table className="table table-auto border w-full text-left">
+            <tr>
+                <th className="p-2">WeekDay</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Total Hour</th>
+            </tr>
+            {values.fetchdata.working_schedule.map((field, index) => {
+
+                const from_string = `${values.fetchdata.working_schedule[index].from?.label} ${values.fetchdata.working_schedule[index].from_am?.label}` 
+                const to_string = `${values.fetchdata.working_schedule[index].to?.label} ${values.fetchdata.working_schedule[index].to_am?.label}`
+                const total_hour = calculateTimeDifference(from_string,to_string);
+                return(
+            <tr key={index} className=" border-t-[1px]">
+                <td className="p-2">
+                    {values.fetchdata.working_schedule[index].weekDay?.label}
+                </td>
+                <td>
+                    {from_string}
+                </td>
+
+                <td>
+                    {to_string}
+                </td>
+                <td>
+                    {total_hour} hours
+                </td>
+            </tr> )   
+        })}
+        </table>
+
+     </div>
+     </div>)   
+    }
 
 
 

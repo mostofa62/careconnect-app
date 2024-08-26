@@ -52,15 +52,31 @@ export const DataSchema = {
     recertification:{'label':'','value':''},
 
 
-    primary_caregiver:{'label':'','value':''},
-    secondary_caregiver:{'label':'','value':''},
+    //primary_caregiver:{'label':'','value':''},
+    //secondary_caregiver:{'label':'','value':''},
+
+    caregiver:[{'label':'','value':''}],
+
+
+    nyia_form_id:'',
+    doh_form_id:'',
+    m11q_form_id:'',
+    enrollment_doc_id:'',
+    mou_form_id:'',
+
+
+    letterofsupport_id:'',
+    supplymentaform_id:'',
+    bankstatement_id:'',
+    addn_doc_id1:'',
+    addn_doc_id2:''
 
     
 
 
 };
 
-export const DataLabel = {
+export const DataLabel:any = {
 
     current_insurance:'Current Insurance',
     allocated_insurance:'Allocated Insurnace',
@@ -116,8 +132,21 @@ export const DataLabel = {
     primary_caregiver:'Primary Caregiver',
     secondary_caregiver:'Secondary Caregiver',
 
-    
+    caregiver:'Caregiver',
 
+    
+    nyia_form_id:'NYIA form',
+    doh_form_id:'DOH form',
+    m11q_form_id:'M11Q form',
+    enrollment_doc_id:'Enrollment Document',
+    mou_form_id:'MOU form',
+
+
+    letterofsupport_id:'Letter of support',
+    supplymentaform_id:'Supplementary A form',
+    bankstatement_id:'Bank Statement',
+    addn_doc_id1:'Additional documents 1',
+    addn_doc_id2:'Additional documents 2'
 
 }
 
