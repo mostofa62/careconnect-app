@@ -23,6 +23,7 @@ interface DataRow {
     bank_routing_no:string;
     email:string;
     phoneNumber: string;
+    total_hour:number;
 }
 
 
@@ -121,6 +122,11 @@ export default function Caregiver() {
     {
       accessorKey: 'bank_routing_no',
       header: 'Bank Routing Number',
+    },
+    {
+      accessorKey: 'total_hour',
+      header: 'Total Working Hours',
+      cell:info=><p className="font-semibold">{info.getValue()} hours</p>
     },
     /*
     {

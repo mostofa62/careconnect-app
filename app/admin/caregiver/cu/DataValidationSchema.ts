@@ -14,7 +14,8 @@ export const DataSchema = {
         from: {'label':'','value':''},
         to: {'label':'','value':''},
         from_am: {'label':'','value':''},
-        to_am:{'label':'','value':''}
+        to_am:{'label':'','value':''},
+        total_hour:0,
       },
     ],
 

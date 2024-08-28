@@ -4,6 +4,10 @@ export function calculateTimeDifference(startTime:string, endTime:string) {
         const [time, modifier] = timeString.split(' ');
         let [hours, minutes] = time.split(':').map(Number);
 
+        if(!hours || modifier==''){
+            return 0;
+        }
+
         if (modifier === 'PM' && hours !== 12) {
             hours += 12;
         }
@@ -18,6 +22,10 @@ export function calculateTimeDifference(startTime:string, endTime:string) {
 
     const startDate:any = parseTime(startTime);
     const endDate:any = parseTime(endTime);
+
+    if(!startDate || !endDate){
+        return 0
+    }
 
     // Handle cases where the end time is past midnight (the next day)
     if (endDate < startDate) {

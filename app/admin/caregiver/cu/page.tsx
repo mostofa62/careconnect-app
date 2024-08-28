@@ -88,6 +88,14 @@ export default function CaregiverCreate() {
         formRef.current?.handleSubmit();
       }
 
+      const calculate_working_hour = (from_string:string, to_string:string)=>{
+
+    
+        const total_hour:any = calculateTimeDifference(from_string,to_string);
+        return total_hour;
+
+      }
+
     
 
     return(
@@ -307,6 +315,15 @@ export default function CaregiverCreate() {
                                 name={`fetchdata.working_schedule.${index}.from`}
                                 dataOptions={WorkingHour}
                                 errorMessage={''}
+                                onParentChangeSelect={(v:any,n:any)=>{
+
+                                  //console.log(v,n)
+                                  const from_string = `${v.value} ${values.fetchdata.working_schedule[index].from_am?.label}`
+                                  const to_string = `${values.fetchdata.working_schedule[index].to?.value} ${values.fetchdata.working_schedule[index].to_am?.label}`
+                                  const totalHours =   calculate_working_hour(from_string, to_string)                                  
+                                  setFieldValue(`fetchdata.working_schedule.${index}.total_hour`, totalHours);
+
+                                }}
                             />
                         </div>
                         <div className="w-full">
@@ -319,6 +336,14 @@ export default function CaregiverCreate() {
                             name={`fetchdata.working_schedule.${index}.from_am`}
                             dataOptions={TimeAmPm}
                             errorMessage={''}
+                            onParentChangeSelect={(v:any, n:any)=>{
+
+                                const from_string = `${values.fetchdata.working_schedule[index].from?.value} ${v.label}`
+                                const to_string = `${values.fetchdata.working_schedule[index].to?.value} ${values.fetchdata.working_schedule[index].to_am?.label}`
+                                const totalHours =   calculate_working_hour(from_string, to_string)                                  
+                                setFieldValue(`fetchdata.working_schedule.${index}.total_hour`, totalHours);
+
+                            }}
                         />
                         </div>
                     </div>
@@ -333,6 +358,13 @@ export default function CaregiverCreate() {
                             name={`fetchdata.working_schedule.${index}.to`}
                             dataOptions={WorkingHour}
                             errorMessage={''}
+                            onParentChangeSelect={(v:any, n:any)=>{
+                                const from_string = `${values.fetchdata.working_schedule[index].from?.value} ${values.fetchdata.working_schedule[index].from_am?.label}`
+                                const to_string = `${v.value} ${values.fetchdata.working_schedule[index].to_am?.label}`
+                                const totalHours =   calculate_working_hour(from_string, to_string)                                  
+                                setFieldValue(`fetchdata.working_schedule.${index}.total_hour`, totalHours);
+
+                            }}
                         />
                     </div>
                     
@@ -346,10 +378,19 @@ export default function CaregiverCreate() {
                             name={`fetchdata.working_schedule.${index}.to_am`}
                             dataOptions={TimeAmPm}
                             errorMessage={''}
+                            onParentChangeSelect={(v:any, n:any)=>{
+                                const from_string = `${values.fetchdata.working_schedule[index].from?.value} ${values.fetchdata.working_schedule[index].from_am?.label}`
+                                const to_string = `${values.fetchdata.working_schedule[index].to?.value} ${v.label}`
+                                const totalHours =   calculate_working_hour(from_string, to_string)                                  
+                                setFieldValue(`fetchdata.working_schedule.${index}.total_hour`, totalHours);
+
+                            }}
                         />
                     </div>
 
                     </div>
+
+                    
                     
                     
                     <div className="w-[10%] ml-[10px]">
@@ -377,7 +418,8 @@ export default function CaregiverCreate() {
                             from: {'label':'','value':''},
                             to: {'label':'','value':''},
                             from_am: {'label':'','value':''},
-                            to_am:{'label':'','value':''}
+                            to_am:{'label':'','value':''},
+                            total_hour:0
                           })}
                     >
 
@@ -415,7 +457,8 @@ export default function CaregiverCreate() {
 
                 const from_string = `${values.fetchdata.working_schedule[index].from?.label} ${values.fetchdata.working_schedule[index].from_am?.label}` 
                 const to_string = `${values.fetchdata.working_schedule[index].to?.label} ${values.fetchdata.working_schedule[index].to_am?.label}`
-                const total_hour = calculateTimeDifference(from_string,to_string);
+                
+                
                 return(
             <tr key={index} className=" border-t-[1px]">
                 <td className="p-2">
@@ -429,10 +472,28 @@ export default function CaregiverCreate() {
                     {to_string}
                 </td>
                 <td>
-                    {total_hour} hours
+                    {values.fetchdata.working_schedule[index].total_hour > 0 &&  `${values.fetchdata.working_schedule[index].total_hour} hours`}
                 </td>
             </tr> )   
         })}
+
+        <tr>
+            <th className="text-right" colSpan={2}>
+            </th>
+            <th>
+                <span className="">Total Hours</span>
+            </th>
+            <th>
+                <span className="">                      
+                        {values.fetchdata.working_schedule.reduce(
+                          (sum, schedule) => sum + Number(schedule.total_hour),
+                          0
+                        )} hours
+                    </span>
+                      
+            </th>
+            
+        </tr>
         </table>
 
      </div>
