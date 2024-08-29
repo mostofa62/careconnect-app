@@ -15,7 +15,7 @@ import FormikSelectInput from "@/app/components/form/FormikSelectInput";
 
 import toast from 'react-hot-toast';
 
-import {WeekDays, WorkingHour, TimeAmPm} from '@/app/data/PatientOptions.json'
+import {WeekDays, WorkingHour, TimeAmPm, Gender} from '@/app/data/PatientOptions.json'
 import FileUpload from "@/app/components/utils/FileUpload";
 import CardLegendHolder from "@/app/components/ui/CardLegendHolder";
 import { calculateTimeDifference } from "@/app/utils/Utils";
@@ -198,7 +198,34 @@ export default function CaregiverCreate({
     
     <div className="ml-[24px] w-[50%]">
 
-    <FormikFieldInput 
+    <FormikSelectInput
+            label={DataLabel.gender}
+            defaultValue={fetchdata.gender}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.gender"
+            dataOptions={Gender}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.gender &&
+                touched.fetchdata &&
+                touched.fetchdata.gender &&
+                errors.fetchdata.gender.label
+            }
+        />
+
+    
+        
+        
+    </div>
+</div>
+
+
+<div className="flex flex-row">
+
+<div className="w-[100%]">
+
+<FormikFieldInput 
         label={DataLabel.address} 
         name={`fetchdata.address`}
         placeHolder={`${DataLabel.address}`}
@@ -207,11 +234,10 @@ export default function CaregiverCreate({
             touched.fetchdata &&            
             touched.fetchdata.address &&  errors.fetchdata.address}        
         />
-        
-        
-    </div>
+
 </div>
 
+</div>
 
 <div className="flex flex-row">
     <div className="w-[50%]">
@@ -250,6 +276,21 @@ export default function CaregiverCreate({
     </div>
 </div>
 
+
+<div className="flex flex-row">
+    <div className="w-[50%]">
+    <FormikFieldInput        
+        label={DataLabel.bank_name} 
+        name={`fetchdata.bank_name`}
+        placeHolder={`${DataLabel.bank_name}`}
+        errorMessage ={ errors.fetchdata &&                                        
+            errors.fetchdata.bank_name &&
+            touched.fetchdata &&            
+            touched.fetchdata.bank_name &&  errors.fetchdata.bank_name}
+        
+        />
+    </div>
+</div>
 
 <div className="flex flex-row">
     <div className="w-[50%]">

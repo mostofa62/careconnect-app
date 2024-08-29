@@ -80,6 +80,13 @@
     "MarketerContracType":[
         {"value":1,"label":"SSN/EN"}
         
+    ],
+
+    "Gender":[
+        {"value":1,"label":"Male"},
+        {"value":2,"label":"Female"}
+        
     ]
+    
 
 }

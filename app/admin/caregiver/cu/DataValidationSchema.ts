@@ -5,8 +5,10 @@ export const DataSchema = {
     phoneNumber:'',
     email:'',
     ssn:'',
+    bank_name:'',
     bank_acc_no:'',
     bank_routing_no:'',
+    gender:{'label':'','value':''},
 
     working_schedule: [
       { 
@@ -36,8 +38,10 @@ export const DataLabel = {
     phoneNumber:'Phone Number',
     email:'Email',
     ssn:'SSN',
+    bank_name:'Bank name',
     bank_acc_no:'Bank Account Number',
     bank_routing_no:'Bank Routing Number',
+    gender:'Gender',
 
     working_schedule:'Working Schedule',
     weekDay:'Week Day',
@@ -79,6 +83,11 @@ export const ValidationSchema =  object().shape({
                 
               }),
               */
+
+              gender:object().shape({
+                value: string().required(),
+                label: string().required(`${DataLabel.gender} is required`)
+              }),
 
               name: string()
               .ensure()

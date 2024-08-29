@@ -90,9 +90,14 @@ export default function Caregiver() {
     
     {
         accessorKey: 'name',
-        header: 'Caregiver Name',
+        header: 'Name',
         //cell: info => <a className="text-[#0166FF] font-medium" href={`caregiver/caremanagers/${info.row.original._id}`}  rel="noopener noreferrer">{info.getValue()}</a>,
     },
+    {
+      accessorKey: 'gender.label',
+      header: 'Gender',
+      //cell: info => <a className="text-[#0166FF] font-medium" href={`caregiver/caremanagers/${info.row.original._id}`}  rel="noopener noreferrer">{info.getValue()}</a>,
+  },
     {
       accessorKey: 'address',
       header: 'Address',

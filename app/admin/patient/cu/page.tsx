@@ -11,6 +11,7 @@ import SelectNonCreatableComponent from '@/app/components/SelectNonCreatableComp
 import FormikFormHolder from "@/app/components/form/FormikFormHolder";
 import FormikFieldInput from "@/app/components/form/FormikFieldInput";
 import FormikSelectInput from "@/app/components/form/FormikSelectInput";
+import FormikSelectRemote from "@/app/components/form/FormikSelectRemote";
 import useFetchDropDownData from "@/app/hooks/useFetchDropDownData";
 
 import toast from 'react-hot-toast';
@@ -23,12 +24,15 @@ import CityData from '@/app/data/CityData.json'
 import {ConsumerStatus, CaseStatus, RestrictionCode, ServiceType, Recertification, WeekDays} from '@/app/data/PatientOptions.json'
 import CardLegendHolder from "@/app/components/ui/CardLegendHolder";
 import FileUpload from "@/app/components/utils/FileUpload";
+import useApp from "@/app/hooks/useApp";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 
 
 
 export default function PatientCreate() {
+
+    const appCtx = useApp();
     const authCtx = useAuth();
     const router = useRouter()
     const formRef = useRef<any>(null);    
@@ -44,7 +48,7 @@ export default function PatientCreate() {
 
     const externalMarketerData = useFetchDropDownData({urlSuffix:`marketer-dropdown/2`});
 
-
+    const caregiver = appCtx.caregiver;
 
     const caregiverData = useFetchDropDownData({urlSuffix:`caregiver-dropdown`});
 
@@ -129,7 +133,7 @@ export default function PatientCreate() {
                                 </svg>
 
 
-                                <p className="">Back</p>
+                                <p className="">Back {/*JSON.stringify(caregiver)*/}</p>
                             </Link>
                     </div>
                     <div className="ml-[50px] pt-[5px]">
@@ -153,13 +157,12 @@ export default function PatientCreate() {
         render={({isValid, handleChange, isSubmitting,values,errors, touched, setFieldValue, setFieldTouched})=>(
             <FormikFormHolder legend="Patient Information">
 
-<p className="text-[16px] uppercase font-medium"> Initial Section</p>
 
-<hr className="mt-2 border-stroke"/>
 
 <div className="flex flex-row">
 
     <div className="w-[50%]">
+        
         <FormikSelectInput
             label={DataLabel.current_insurance}
             defaultValue={fetchdata.current_insurance}
@@ -321,9 +324,9 @@ export default function PatientCreate() {
     </div>
 </div>
 
-<p className="text-[16px] uppercase font-medium mt-5"> Marketer Section</p>
 
-<hr className="mt-2 border-stroke"/>
+
+<hr className="mt-5 border-stroke"/>
 
 
 <div className="flex flex-row">
@@ -374,9 +377,9 @@ export default function PatientCreate() {
 
 
 
-<p className="text-[16px] uppercase font-medium mt-5"> Patient Section</p>
 
-<hr className="mt-2 border-stroke"/>
+
+<hr className="mt-5 border-stroke"/>
 
 <div className="flex flex-row">
     <div className="w-[32%]">
@@ -835,9 +838,9 @@ export default function PatientCreate() {
 </div>
 
 
-<p className="text-[16px] uppercase font-medium mt-5"> Caregiver Section</p>
 
-<hr className="mt-2 border-stroke"/>
+
+<hr className="mt-5 border-stroke"/>
 
 
 <div className="flex flex-row mt-5">
@@ -852,14 +855,14 @@ export default function PatientCreate() {
                   <div key={index} className="flex flex-row">
                     <div className="w-[50%] mt-1">
 
-                    <FormikSelectInput
+                    <FormikSelectRemote
             label={`${DataLabel.caregiver} ${index+1}`}
             defaultValue={fetchdata.caregiver[index]}
             placeHolder={``}
             isSearchable={true}
             isClearable={true}
             name={`fetchdata.caregiver.${index}`}
-            dataOptions={caregiverData}
+            urlSuffix={`caregiver-dropdown`}
             errorMessage={''}
         />
 
@@ -871,7 +874,7 @@ export default function PatientCreate() {
                     <div className="w-[10%] ml-[20px]">
                     <button
                       type="button"
-                      className="bg-meta-1 rounded text-white mt-9"
+                      className="bg-meta-1 rounded text-white mt-10"
                       onClick={() => remove(index)}
                     >
                       <p className="py-2 px-2">Remove</p>

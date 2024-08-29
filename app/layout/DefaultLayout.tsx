@@ -7,6 +7,7 @@ import Sidebar from '@/app/components/Sidebar';
 //import useAuthRoute from '@/app/hooks/useAuthRoute';
 import { useRouter, usePathname } from "next/navigation";
 import { RouteChangeListener } from '@/app/components/utils/RouteChangeListener';
+import { AppContextProvider } from '../context/app-context';
 interface DefaultLayoutProps {
   children: ReactNode;
 }
@@ -25,7 +26,8 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
   return (
     <div className="bg-white">
-      <RouteChangeListener/>
+      
+      
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden bg-slate-800">
         {/* <!-- ===== Sidebar Start ===== --> */}
@@ -40,9 +42,10 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className="mx-auto lg:pl-[280px]">              
+            <div className="mx-auto lg:pl-[280px]"> 
+                      
               {children}
-              
+             
             </div>
           </main>
           {/* <!-- ===== Main Content End ===== --> */}
@@ -50,6 +53,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         {/* <!-- ===== Content Area End ===== --> */}
       </div>
       {/* <!-- ===== Page Wrapper End ===== --> */}
+      
     </div>
   );
 };

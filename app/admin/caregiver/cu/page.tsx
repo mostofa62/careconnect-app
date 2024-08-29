@@ -14,14 +14,19 @@ import FormikSelectInput from "@/app/components/form/FormikSelectInput";
 
 import toast from 'react-hot-toast';
 
-import {WeekDays, WorkingHour, TimeAmPm} from '@/app/data/PatientOptions.json'
+import {WeekDays, WorkingHour, TimeAmPm, Gender} from '@/app/data/PatientOptions.json'
 import FileUpload from "@/app/components/utils/FileUpload";
 import CardLegendHolder from "@/app/components/ui/CardLegendHolder";
 import {calculateTimeDifference} from '@/app/utils/Utils';
+import useApp from "@/app/hooks/useApp";
 
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 export default function CaregiverCreate() {
+
+    const appCtx = useApp();
+
+
     const authCtx = useAuth();
     const router = useRouter()
     const formRef = useRef<any>(null);
@@ -36,9 +41,7 @@ export default function CaregiverCreate() {
     const [wfourId,setWfourId] = useState<string>('');
 
     const fetchdata = fetchFomrData;
-
     
-
     const handleFormSubmit = async(values:any,{ resetForm }:any)=>{
         //alert(JSON.stringify(values));
         const photo_attachment_id = photoId;
@@ -46,6 +49,10 @@ export default function CaregiverCreate() {
         const bank_attachment_id = bankAttchId;
         const physical_form_attachment_id = phyFormId;
         const wfour_form_attachment_id = wfourId;
+
+        
+
+        
 
         await axios.post(`${url}save-caregiver`, 
             {
@@ -74,6 +81,9 @@ export default function CaregiverCreate() {
             setPhyFormId('');
             setBankAttchId('');
             setWfourId('');
+            //if(response.data.caregiver!=null){
+            //appCtx.setCareGiverHandler(response.data.caregiver)
+            //}
           }         
           
         })
@@ -81,6 +91,7 @@ export default function CaregiverCreate() {
             toast.error(error);
           //console.log(error);
         });
+    
 
     }
 
@@ -166,7 +177,33 @@ export default function CaregiverCreate() {
     
     <div className="ml-[24px] w-[50%]">
 
-    <FormikFieldInput 
+    <FormikSelectInput
+            label={DataLabel.gender}
+            defaultValue={fetchdata.gender}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.gender"
+            dataOptions={Gender}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.gender &&
+                touched.fetchdata &&
+                touched.fetchdata.gender &&
+                errors.fetchdata.gender.label
+            }
+        />
+
+    
+        
+        
+    </div>
+</div>
+
+<div className="flex flex-row">
+
+<div className="w-[100%]">
+
+<FormikFieldInput 
         label={DataLabel.address} 
         name={`fetchdata.address`}
         placeHolder={`${DataLabel.address}`}
@@ -175,11 +212,10 @@ export default function CaregiverCreate() {
             touched.fetchdata &&            
             touched.fetchdata.address &&  errors.fetchdata.address}        
         />
-        
-        
-    </div>
+
 </div>
 
+</div>
 
 <div className="flex flex-row">
     <div className="w-[50%]">
@@ -218,7 +254,20 @@ export default function CaregiverCreate() {
     </div>
 </div>
 
-
+<div className="flex flex-row">
+    <div className="w-[50%]">
+    <FormikFieldInput        
+        label={DataLabel.bank_name} 
+        name={`fetchdata.bank_name`}
+        placeHolder={`${DataLabel.bank_name}`}
+        errorMessage ={ errors.fetchdata &&                                        
+            errors.fetchdata.bank_name &&
+            touched.fetchdata &&            
+            touched.fetchdata.bank_name &&  errors.fetchdata.bank_name}
+        
+        />
+    </div>
+</div>
 <div className="flex flex-row">
     <div className="w-[50%]">
         
