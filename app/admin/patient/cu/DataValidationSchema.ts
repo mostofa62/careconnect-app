@@ -1,4 +1,6 @@
-import { object, array, string, number, StringSchema } from "yup";
+import { object, array, string, number } from "yup";
+
+
 export const DataSchema = {
 
     current_insurance:{'label':'','value':''},
@@ -55,7 +57,7 @@ export const DataSchema = {
     //primary_caregiver:{'label':'','value':''},
     //secondary_caregiver:{'label':'','value':''},
 
-    caregiver:[{'label':'','value':''}],
+    caregiver:[{'label':'','value':'','displayLabel':''}],
 
 
     nyia_form_id:'',
@@ -220,6 +222,64 @@ export const ValidationSchema =  object().shape({
                 .ensure()
                 .matches(/^\d{4}-\d{2}-\d{2}$/i,`provide valid ${DataLabel.service_end_date}`)
                 .required(`${DataLabel.service_end_date} is required`),
+
+
+                /*
+                caregiver: array()
+                .of(
+                  object({
+                    label: string(),
+                    value: string()
+                  })
+                )
+                
+                .test(
+                  'unique',
+                    `${DataLabel.caregiver} must be unique`,
+                      (value) => {
+                        if (!value) return true;
+               
+                        const unique = value.filter((v: any, i: number, a: any) => a.findIndex((t: any) => (t.label === v.label && t.value === v.value)) === i);
+                        return unique.length === value.length;
+                  }
+              )
+                  */
+
+
+              caregiver: array()
+              .of(
+                object({
+                  label: string(),
+                  value: string(),
+                  
+                })
+              )
+              .test('unique-label',  `${DataLabel.caregiver} must be unique`, function (caregivers:any) {
+                const labels = caregivers.map((caregiver:any) => caregiver.label);
+                const uniqueLabels = new Set(labels);
+                if (labels.length !== uniqueLabels.size) {
+                  const indexOfFirstDuplicate = labels.findIndex((item:any, index:number) => labels.indexOf(item) !== index);
+                  return this.createError({
+                    //path: `fetchdata.caregiver.${indexOfFirstDuplicate}.label`,
+                    message: `${DataLabel.caregiver} ${indexOfFirstDuplicate+1} is not unique`,
+                  });
+                }
+                return true;
+              })
+              .test('unique-value',  `${DataLabel.caregiver} must be unique`, function (caregivers:any) {
+                const values = caregivers.map((caregiver:any) => caregiver.value);
+                const uniqueValues = new Set(values);
+                if (values.length !== uniqueValues.size) {
+                  const indexOfFirstDuplicate = values.findIndex((item:any, index:number) => values.indexOf(item) !== index);
+                  return this.createError({
+                    //path: `fetchdata.caregiver.${indexOfFirstDuplicate}.value`,
+                    message: `${DataLabel.caregiver} ${indexOfFirstDuplicate+1} is not unique`,
+                  });
+                }
+                return true;
+              }),
+              
+
               
              
 })

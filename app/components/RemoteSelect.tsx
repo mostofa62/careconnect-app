@@ -32,10 +32,34 @@ const customStyles = {
       '&:hover': {
         borderColor: state.isFocused ? '#0a4a82' : '#DFDFDF', // Change the border color on hover
       },
+
+      margin: 0, // Remove default margin
+      padding: 0, // Remove default padding
     }),
     input: (provided:any) => ({
       ...provided,
       boxShadow: 'none', // Remove the outline from the input element
+      margin: 0, // Remove default margin
+      padding: 0, // Remove default padding
+    }),
+    singleValue: (provided:any) => ({
+      ...provided,
+      ...provided,
+    margin: 0, // Remove margin
+    padding: 0, // Remove padding
+    lineHeight: 1, // Adjust line height to remove extra space
+    display: 'flex',
+    alignItems: 'center',
+    }),
+    placeholder: (provided:any) => ({
+      ...provided,
+      margin: 0, // Remove default margin
+      padding: 0, // Remove default padding
+    }),
+    menu: (provided:any) => ({
+      ...provided,
+      margin: 0, // Remove default margin
+      padding: 0, // Remove default padding
     }),
 };
 
@@ -80,7 +104,8 @@ const RemoteSelect = ({
 
             const formattedOptions = data.map((item: any) => ({
             label: item.label,  // Use `name` field as label
-            value: item.value          
+            value: item.value,
+            displayLabel: item.displayLabel          
             }));
 
             //console.log(formattedOptions);
@@ -134,10 +159,36 @@ const RemoteSelect = ({
 
   // Use the custom hook to detect clicks outside
   useOutsideClick(selectRef, closeMenu);
+
+  const handleSelectChange = (value:any, action:any, extraParameter:any) => {
+
+    setTouched(true)
+    if(action.action == 'clear'){
+      //alert(JSON.stringify(extraParameter))          
+      setValue(defaultValueOptions)
+      onParentChange(defaultValueOptions,action.name)
+      handleClearCache("");
+    }else{
+      setValue(value)
+      onParentChange(value,action.name)
+    }
+    setMenuIsOpen(false);
+   
+  };
+
+  // Create a wrapper function to pass extraParameter
+  const handleChangeWrapper = (value:any, action:any) => {
+    handleSelectChange(value, action, defaultValueOptions);
+  };
   
+  // Custom component for displaying options
+    const customSingleValue = ({ data }:any) => (
+      <div style={{ margin: 0, padding: 0, lineHeight: '1' }}>{data.label}</div>
+    );
 
   return (
     <div ref={selectRef}>
+      {/*JSON.stringify(defaultValueOptions)*/}
     <Select
       
       key={selectKey}      
@@ -153,26 +204,17 @@ const RemoteSelect = ({
       options={options}
       onInputChange={handleInputChange}
       isLoading={loading}
-      onChange={(value, action) => {
-        setTouched(true)
-        if(action.action == 'clear'){          
-          setValue(defaultValueOptions)
-          onParentChange(defaultValueOptions,action.name)
-          handleClearCache("");
-        }else{
-          setValue(value)
-          onParentChange(value,action.name)
-        }
-        setMenuIsOpen(false);
-                
-      }}
+      onChange={handleChangeWrapper}
       onBlur={closeMenu}
       onMenuOpen={handleMenuOpen}
       onMenuClose={handleMenuClose}
       menuIsOpen={menuIsOpen} // Control menu visibility
 
-      getOptionLabel={(option) => option.label}
+      //getOptionLabel={(option) => option.label}
+      getOptionLabel={option => option.displayLabel}
       getOptionValue={(option) => option.value}
+      formatOptionLabel={option => <span>{option.displayLabel}</span>}
+      components={{ SingleValue: customSingleValue }}
       
       // Optionally, you can include a custom `formatOptionLabel` if you want to format the dropdown item further
     />

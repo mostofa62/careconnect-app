@@ -5,7 +5,7 @@ import { useState,useEffect, useRef, useMemo } from "react";
 import axios from "axios";
 import useAuth from '@/app/hooks/useAuth';
 import { useRouter } from "next/navigation";
-import {Formik, Field, yupToFormErrors, validateYupSchema, FieldArray} from 'formik';
+import {Formik, Field, yupToFormErrors, validateYupSchema, FieldArray, ErrorMessage } from 'formik';
 import { DataSchema,DataLabel,ValidationSchema } from "./DataValidationSchema";
 import SelectNonCreatableComponent from '@/app/components/SelectNonCreatableComponent';
 import FormikFormHolder from "@/app/components/form/FormikFormHolder";
@@ -851,20 +851,27 @@ export default function PatientCreate() {
           {({ insert, remove, push }:any) => (
             <div>
               {values.fetchdata.caregiver.length > 0 &&
-                values.fetchdata.caregiver.map((field, index) => (
+                values.fetchdata.caregiver.map((_, index) => (
                   <div key={index} className="flex flex-row">
                     <div className="w-[50%] mt-1">
 
                     <FormikSelectRemote
             label={`${DataLabel.caregiver} ${index+1}`}
-            defaultValue={fetchdata.caregiver[index]}
+            defaultValue={fetchdata.caregiver[0]}
             placeHolder={``}
             isSearchable={true}
             isClearable={true}
             name={`fetchdata.caregiver.${index}`}
             urlSuffix={`caregiver-dropdown`}
-            errorMessage={''}
+            errorMessage={
+                typeof errors.fetchdata?.caregiver == 'string' ?
+                errors.fetchdata.caregiver:''
+                
+
+            }
+            
         />
+
 
                     
                     </div>
@@ -914,16 +921,16 @@ export default function PatientCreate() {
 
 
 
-
-
-
-
-{/*
+{
 <div className="flex flex-row">
-    {JSON.stringify(values.fetchdata.working_schedule)}
-    {JSON.stringify(errors)}
+    {/*JSON.stringify(values.fetchdata.caregiver*)*/}
+    {/*JSON.stringify(errors.fetchdata?.caregiver)*/}
 </div>
-*/}
+}
+
+
+
+
 
 </FormikFormHolder>
         )}
