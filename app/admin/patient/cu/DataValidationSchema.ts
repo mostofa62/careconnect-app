@@ -15,6 +15,8 @@ export const DataSchema = {
     internal_marketer:{'label':'','value':''},
     external_marketer:{'label':'','value':''},
 
+    patient_id:'',
+
     first_name:'',
     middle_name:'',
     last_name:'',
@@ -80,6 +82,8 @@ export const DataSchema = {
 
 export const DataLabel:any = {
 
+    patient_id:'Patient Id',
+
     current_insurance:'Current Insurance',
     allocated_insurance:'Allocated Insurnace',
     current_plancode:'Plan Code ( Current )',
@@ -95,6 +99,7 @@ export const DataLabel:any = {
     first_name:'First Name',
     middle_name:'Middle Name',
     last_name:'Last Name',
+    full_name:'Name',
 
     dob:'DOB',
     ssn:'SSN',
@@ -165,7 +170,13 @@ export const ValidationSchema =  object().shape({
               label: string().required(`${DataLabel.allocated_insurance} is required`)
             }),
             
-            
+            first_name: string()
+            .ensure()
+            .required(`${DataLabel.first_name} is required`),
+
+            last_name: string()
+            .ensure()
+            .required(`${DataLabel.last_name} is required`),
 
               medicaid_id: string()
               .ensure()

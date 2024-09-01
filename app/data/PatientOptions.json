@@ -78,7 +78,9 @@
     ],
 
     "MarketerContracType":[
-        {"value":1,"label":"SSN/EN"}
+        {"value":1,"label":"SSN"},
+        {"value":2,"label":"EN"}
+        
         
     ],
 
