@@ -5,7 +5,7 @@ import { useState,useEffect, useRef, useMemo } from "react";
 import axios from "axios";
 import useAuth from '@/app/hooks/useAuth';
 import { useRouter } from "next/navigation";
-import {Formik, Field, yupToFormErrors, validateYupSchema, FieldArray, ErrorMessage } from 'formik';
+import {Formik, Field, yupToFormErrors, validateYupSchema, FieldArray, ErrorMessage, Form } from 'formik';
 import { DataSchema,DataLabel,ValidationSchema } from "./DataValidationSchema";
 import SelectNonCreatableComponent from '@/app/components/SelectNonCreatableComponent';
 import FormikFormHolder from "@/app/components/form/FormikFormHolder";
@@ -21,10 +21,11 @@ import toast from 'react-hot-toast';
 import CountyData from '@/app/data/CountyData.json'
 import CityData from '@/app/data/CityData.json'
 
-import {ConsumerStatus, CaseStatus, RestrictionCode, ServiceType, Recertification, WeekDays} from '@/app/data/PatientOptions.json'
+import {ConsumerStatus, CaseStatus, RestrictionCode, ServiceType, Recertification} from '@/app/data/PatientOptions.json'
 import CardLegendHolder from "@/app/components/ui/CardLegendHolder";
 import FileUpload from "@/app/components/utils/FileUpload";
 import useApp from "@/app/hooks/useApp";
+import Accordion from "@/app/components/ui/Accordion";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -143,9 +144,11 @@ export default function PatientCreate() {
             
             </div>
 
+            
+
             <div className="mt-[32px] flex flex-row gap-2">
 
-                <div className="w-[70%] ">
+                <div className="w-full px-4">
             <Formik
             innerRef={formRef}
         initialValues={{ fetchdata }}
@@ -155,234 +158,13 @@ export default function PatientCreate() {
         onSubmit={handleFormSubmit}
 
         render={({isValid, handleChange, isSubmitting,values,errors, touched, setFieldValue, setFieldTouched})=>(
-            <FormikFormHolder legend="Patient Information">
+            <Form>
 
 
+<Accordion title="Patient Information">
 
-<div className="flex flex-row">
-
-    <div className="w-[50%]">
-        
-        <FormikSelectInput
-            label={DataLabel.current_insurance}
-            defaultValue={fetchdata.current_insurance}
-            placeHolder={``}
-            isSearchable={true}
-            isClearable={true}
-            name="fetchdata.current_insurance"
-            dataOptions={insuranceData}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.current_insurance &&
-                touched.fetchdata &&
-                touched.fetchdata.current_insurance &&
-                errors.fetchdata.current_insurance.label
-            }
-        />
-        
-        
-    </div>        
-
-    <div className="ml-[24px] w-[50%]">
-
-    <FormikFieldInput 
-        label={DataLabel.current_plancode} 
-        name={`fetchdata.current_plancode`}                
-        placeHolder={`${DataLabel.current_plancode}`}
-        errorMessage ={ errors.fetchdata &&                                        
-            errors.fetchdata.current_plancode &&
-            touched.fetchdata &&            
-            touched.fetchdata.current_plancode &&  errors.fetchdata.current_plancode}        
-        />
-        
-        
-    </div>
-    
-    
-</div>
-
-
-<div className="flex flex-row">
-
-    <div className="w-[50%]">
-        <FormikSelectInput
-            label={DataLabel.allocated_insurance}
-            defaultValue={fetchdata.allocated_insurance}
-            placeHolder={``}
-            isSearchable={true}
-            isClearable={true}
-            name="fetchdata.allocated_insurance"
-            dataOptions={insuranceData}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.allocated_insurance &&
-                touched.fetchdata &&
-                touched.fetchdata.allocated_insurance &&
-                errors.fetchdata.allocated_insurance.label
-            }
-        />
-        
-        
-    </div>        
-
-    <div className="ml-[24px] w-[50%]">
-
-    <FormikFieldInput 
-        label={DataLabel.allocated_plancode} 
-        name={`fetchdata.allocated_plancode`}            
-        placeHolder={`${DataLabel.allocated_plancode}`}
-        errorMessage ={ errors.fetchdata &&                                        
-            errors.fetchdata.allocated_plancode &&
-            touched.fetchdata &&            
-            touched.fetchdata.allocated_plancode &&  errors.fetchdata.allocated_plancode}        
-        />
-        
-        
-    </div>
-    
-    
-</div>
-
-
-<div className="flex flex-row">
-
-    <div className="w-[50%]">
-        <FormikSelectInput
-            label={DataLabel.consumer_status}
-            defaultValue={fetchdata.consumer_status}
-            placeHolder={``}
-            isSearchable={true}
-            isClearable={true}
-            name="fetchdata.consumer_status"
-            dataOptions={ConsumerStatus}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.consumer_status &&
-                touched.fetchdata &&
-                touched.fetchdata.consumer_status &&
-                errors.fetchdata.consumer_status.label
-            }
-        />
-        
-        
-    </div>        
-
-    <div className="ml-[24px] w-[50%]">
-
-    <FormikSelectInput
-            label={DataLabel.case_status}
-            defaultValue={fetchdata.case_status}
-            placeHolder={``}
-            isSearchable={true}
-            isClearable={true}
-            name="fetchdata.case_status"
-            dataOptions={CaseStatus}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.case_status &&
-                touched.fetchdata &&
-                touched.fetchdata.case_status &&
-                errors.fetchdata.case_status.label
-            }
-        />
-        
-        
-    </div>
-    
-    
-</div>
-
-
-<div className="flex flex-row">
-    <div className="w-[50%]">
-        
-    <FormikFieldInput 
-                type="date"
-                label={DataLabel.projected_encrollment_date} 
-                name={`fetchdata.projected_encrollment_date`}
-                placeHolder={`${DataLabel.projected_encrollment_date}`}
-                errorMessage ={ errors.fetchdata &&                                        
-                    errors.fetchdata.projected_encrollment_date &&
-                    touched.fetchdata &&            
-                    touched.fetchdata.projected_encrollment_date &&  errors.fetchdata.projected_encrollment_date}        
-                />
-        
-        
-        
-    </div>
-    
-    <div className="ml-[24px] w-[50%]">
-
-    <FormikFieldInput 
-                type="date"
-                label={DataLabel.confirmed_encrollment_date} 
-                name={`fetchdata.confirmed_encrollment_date`}
-                placeHolder={`${DataLabel.confirmed_encrollment_date}`}
-                errorMessage ={ errors.fetchdata &&                                        
-                    errors.fetchdata.confirmed_encrollment_date &&
-                    touched.fetchdata &&            
-                    touched.fetchdata.confirmed_encrollment_date &&  errors.fetchdata.confirmed_encrollment_date}        
-                />
-        
-        
-    </div>
-</div>
-
-
-
-<hr className="mt-5 border-stroke"/>
-
-
-<div className="flex flex-row">
-
-    <div className="w-[50%]">
-        <FormikSelectInput
-            label={DataLabel.internal_marketer}
-            defaultValue={fetchdata.internal_marketer}
-            placeHolder={``}
-            isSearchable={true}
-            isClearable={true}
-            name="fetchdata.internal_marketer"
-            dataOptions={internalMarketerData}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.internal_marketer &&
-                touched.fetchdata &&
-                touched.fetchdata.internal_marketer &&
-                errors.fetchdata.internal_marketer.label
-            }
-        />
-        
-        
-    </div>        
-
-    <div className="ml-[24px] w-[50%]">
-
-    <FormikSelectInput
-            label={DataLabel.external_marketer}
-            defaultValue={fetchdata.external_marketer}
-            placeHolder={``}
-            isSearchable={true}
-            isClearable={true}
-            name="fetchdata.external_marketer"
-            dataOptions={externalMarketerData}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.external_marketer &&
-                touched.fetchdata &&
-                touched.fetchdata.external_marketer &&
-                errors.fetchdata.external_marketer.label
-            }
-        />
-        
-        
-    </div>
-    
-    
-</div>
-
-
-
-
-
-<hr className="mt-5 border-stroke"/>
-
-<div className="flex flex-row">
-    <div className="w-[32%]">
+<div className="flex flex-row mt-[15px]">
+    <div className="w-[20%]">
         
         <FormikFieldInput 
         label={DataLabel.first_name} 
@@ -398,7 +180,7 @@ export default function PatientCreate() {
         
     </div>
     
-    <div className="ml-[24px] w-[32%]">
+    <div className="ml-[24px] w-[20%]">
 
     <FormikFieldInput 
         label={DataLabel.middle_name} 
@@ -413,7 +195,7 @@ export default function PatientCreate() {
         
     </div>
 
-    <div className="ml-[24px] w-[32%]">
+    <div className="ml-[24px] w-[20%]">
 
     <FormikFieldInput 
         label={DataLabel.last_name} 
@@ -427,11 +209,8 @@ export default function PatientCreate() {
         
         
     </div>
-</div>
 
-
-<div className="flex flex-row">
-    <div className="w-[50%]">
+    <div className="ml-[24px] w-[20%]">
         
     <FormikFieldInput 
                 type="date"
@@ -447,66 +226,29 @@ export default function PatientCreate() {
         
         
     </div>
-    
-    <div className="ml-[24px] w-[50%]">
+
+    <div className="ml-[24px] w-[20%]">
 
     <FormikFieldInput 
-        label={DataLabel.ssn} 
-        name={`fetchdata.ssn`}
-        placeHolder={`${DataLabel.ssn}`}
+        label={DataLabel.address} 
+        name={`fetchdata.address`}               
+        placeHolder={`${DataLabel.address}`}
         errorMessage ={ errors.fetchdata &&                                        
-            errors.fetchdata.ssn &&
+            errors.fetchdata.address &&
             touched.fetchdata &&            
-            touched.fetchdata.ssn &&  errors.fetchdata.ssn}        
+            touched.fetchdata.address &&  errors.fetchdata.address}        
         />
         
         
-    </div>
+    </div> 
 
-    
+
 </div>
 
 
-<div className="flex flex-row">
-        <div className="w-[50%]">
+<div className="flex flex-row mt-[30px]">
 
-        <FormikFieldInput 
-            label={DataLabel.medicaid_id} 
-            name={`fetchdata.medicaid_id`}
-            placeHolder={`${DataLabel.medicaid_id}`}
-            errorMessage ={ errors.fetchdata &&                                        
-                errors.fetchdata.medicaid_id &&
-                touched.fetchdata &&            
-                touched.fetchdata.medicaid_id &&  errors.fetchdata.medicaid_id}        
-            />
-            
-            
-        </div>
-
-        <div className="ml-[24px]  w-[50%]">
-        <FormikFieldInput 
-        label={DataLabel.email} 
-        name={`fetchdata.email`}
-        type="email"        
-        placeHolder={`${DataLabel.email}`}
-        errorMessage ={ errors.fetchdata &&                                        
-            errors.fetchdata.email &&
-            touched.fetchdata &&            
-            touched.fetchdata.email &&  errors.fetchdata.email}        
-        />
-        
-        
-    </div>        
-    
-    
-   
-</div>
-
-
-
-<div className="flex flex-row">
-
-    <div className="w-[50%]">
+    <div className="w-[20%]">
         <FormikSelectInput
             label={DataLabel.city}
             defaultValue={fetchdata.city}
@@ -526,7 +268,7 @@ export default function PatientCreate() {
         
     </div>        
 
-    <div className="ml-[24px] w-[50%]">
+    <div className="ml-[24px] w-[20%]">
 
     <FormikSelectInput
             label={DataLabel.county}
@@ -546,13 +288,8 @@ export default function PatientCreate() {
         
         
     </div>
-    
-    
-</div>
 
-
-<div className="flex flex-row">
-        <div className="w-[50%]">
+    <div className="ml-[24px] w-[20%]">
 
         <FormikFieldInput 
         label={DataLabel.zipCode} 
@@ -566,35 +303,9 @@ export default function PatientCreate() {
         />
             
             
-        </div>
-    <div className="ml-[24px] w-[50%]">
-
-    <FormikSelectInput
-            label={DataLabel.restriction_code}
-            defaultValue={fetchdata.restriction_code}
-            placeHolder={``}
-            isSearchable={true}
-            isClearable={true}
-            name="fetchdata.restriction_code"
-            dataOptions={RestrictionCode}
-            errorMessage={errors.fetchdata &&
-                errors.fetchdata.restriction_code &&
-                touched.fetchdata &&
-                touched.fetchdata.restriction_code &&
-                errors.fetchdata.restriction_code.label
-            }
-        />
-        
-        
     </div>
-    
-   
-</div>
 
-
-<div className="flex flex-row">
-
-    <div className="w-[50%]">
+    <div className="ml-[24px] w-[20%]">
         <FormikFieldInput 
         label={DataLabel.phone} 
         name={`fetchdata.phone`}
@@ -609,7 +320,7 @@ export default function PatientCreate() {
         
     </div>        
 
-    <div className="ml-[24px] w-[50%]">
+    <div className="ml-[24px] w-[20%]">
 
     <FormikFieldInput 
         label={DataLabel.cell_phone} 
@@ -629,43 +340,75 @@ export default function PatientCreate() {
 </div>
 
 
-<div className="flex flex-row">
-    
-<div className="w-[100%]">
+
+<div className="flex flex-row mt-[30px]">
+
+    <div className="w-[20%]">
+        <FormikFieldInput 
+            label={DataLabel.email} 
+            name={`fetchdata.email`}
+            type="email"        
+            placeHolder={`${DataLabel.email}`}
+            errorMessage ={ errors.fetchdata &&                                        
+                errors.fetchdata.email &&
+                touched.fetchdata &&            
+                touched.fetchdata.email &&  errors.fetchdata.email}        
+            />
+        
+        
+    </div>        
+
+    <div className="ml-[24px] w-[20%]">
 
     <FormikFieldInput 
-        label={DataLabel.address} 
-        name={`fetchdata.address`}               
-        placeHolder={`${DataLabel.address}`}
+        label={DataLabel.ssn} 
+        name={`fetchdata.ssn`}
+        placeHolder={`${DataLabel.ssn}`}
         errorMessage ={ errors.fetchdata &&                                        
-            errors.fetchdata.address &&
+            errors.fetchdata.ssn &&
             touched.fetchdata &&            
-            touched.fetchdata.address &&  errors.fetchdata.address}        
+            touched.fetchdata.ssn &&  errors.fetchdata.ssn}        
         />
         
         
-</div>    
-    
-</div>
+    </div>
 
+    <div className="ml-[24px] w-[20%]">
 
-<div className="flex flex-row">
-        <div className="w-[50%]">
+    <FormikFieldInput 
+            label={DataLabel.medicaid_id} 
+            name={`fetchdata.medicaid_id`}
+            placeHolder={`${DataLabel.medicaid_id}`}
+            errorMessage ={ errors.fetchdata &&                                        
+                errors.fetchdata.medicaid_id &&
+                touched.fetchdata &&            
+                touched.fetchdata.medicaid_id &&  errors.fetchdata.medicaid_id}        
+            />
+            
+            
+    </div>
 
-        <FormikFieldInput 
-        label={DataLabel.pay_rate} 
-        name={`fetchdata.pay_rate`}
-        type="number"
-        placeHolder={`${DataLabel.pay_rate}`}
-        errorMessage ={ errors.fetchdata &&                                        
-            errors.fetchdata.pay_rate &&
-            touched.fetchdata &&            
-            touched.fetchdata.pay_rate &&  errors.fetchdata.pay_rate}        
+    <div className="ml-[24px] w-[20%]">
+    <FormikSelectInput
+            label={DataLabel.restriction_code}
+            defaultValue={fetchdata.restriction_code}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.restriction_code"
+            dataOptions={RestrictionCode}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.restriction_code &&
+                touched.fetchdata &&
+                touched.fetchdata.restriction_code &&
+                errors.fetchdata.restriction_code.label
+            }
         />
-            
-            
-        </div>
-    <div className="ml-[24px] w-[50%]">
+        
+        
+    </div>        
+
+    <div className="ml-[24px] w-[20%]">
 
     <FormikFieldInput 
         label={DataLabel.allocated_hours} 
@@ -677,15 +420,18 @@ export default function PatientCreate() {
             touched.fetchdata &&            
             touched.fetchdata.allocated_hours &&  errors.fetchdata.allocated_hours}        
         />
-
+        
+        
     </div>
-
+    
+    
 </div>
 
 
-<div className="flex flex-row">
-    <div className="w-[50%]">
-        
+
+<div className="flex flex-row mt-[30px]">
+
+    <div className="w-[20%]">
     <FormikFieldInput 
                 type="date"
                 label={DataLabel.cha_appointment_date} 
@@ -698,10 +444,9 @@ export default function PatientCreate() {
                 />
         
         
-        
-    </div>
-    
-    <div className="ml-[24px] w-[50%]">
+    </div>        
+
+    <div className="ml-[24px] w-[20%]">
 
     <FormikFieldInput 
                 type="date"
@@ -716,12 +461,9 @@ export default function PatientCreate() {
         
         
     </div>
-</div>
 
+    <div className="ml-[24px] w-[20%]">
 
-<div className="flex flex-row">
-    <div className="w-[50%]">
-        
     <FormikFieldInput 
                 type="date"
                 label={DataLabel.insrn_assessment_date} 
@@ -732,13 +474,11 @@ export default function PatientCreate() {
                     touched.fetchdata &&            
                     touched.fetchdata.insrn_assessment_date &&  errors.fetchdata.insrn_assessment_date}        
                 />
-        
-        
-        
+            
+            
     </div>
-    
-    <div className="ml-[24px] w-[50%]">
 
+    <div className="ml-[24px] w-[20%]">
     <FormikFieldInput 
                 type="date"
                 label={DataLabel.addn_assessment_date} 
@@ -752,48 +492,9 @@ export default function PatientCreate() {
         
         
     </div>
-</div>
 
+    <div className="ml-[24px] w-[20%]">
 
-<div className="flex flex-row">
-    <div className="w-[50%]">
-        
-    <FormikFieldInput 
-                type="date"
-                label={DataLabel.service_start_date} 
-                name={`fetchdata.service_start_date`}
-                placeHolder={`${DataLabel.service_start_date}`}
-                errorMessage ={ errors.fetchdata &&                                        
-                    errors.fetchdata.service_start_date &&
-                    touched.fetchdata &&            
-                    touched.fetchdata.service_start_date &&  errors.fetchdata.service_start_date}        
-                />
-        
-        
-        
-    </div>
-    
-    <div className="ml-[24px] w-[50%]">
-
-    <FormikFieldInput 
-                type="date"
-                label={DataLabel.service_end_date} 
-                name={`fetchdata.service_end_date`}
-                placeHolder={`${DataLabel.service_end_date}`}
-                errorMessage ={ errors.fetchdata &&                                        
-                    errors.fetchdata.service_end_date &&
-                    touched.fetchdata &&            
-                    touched.fetchdata.service_end_date &&  errors.fetchdata.service_end_date}        
-                />
-        
-        
-    </div>
-</div>
-
-
-<div className="flex flex-row">
-    <div className="w-[50%]">
-        
     <FormikSelectInput
             label={DataLabel.service_type}
             defaultValue={fetchdata.service_type}
@@ -809,12 +510,49 @@ export default function PatientCreate() {
                 errors.fetchdata.service_type.label
             }
         />
+
+    </div>        
+
+    
+    
+    
+</div>
+
+
+<div className="flex flex-row mt-[30px]">
+
+    <div className="w-[20%]">
+    <FormikFieldInput 
+                type="date"
+                label={DataLabel.service_start_date} 
+                name={`fetchdata.service_start_date`}
+                placeHolder={`${DataLabel.service_start_date}`}
+                errorMessage ={ errors.fetchdata &&                                        
+                    errors.fetchdata.service_start_date &&
+                    touched.fetchdata &&            
+                    touched.fetchdata.service_start_date &&  errors.fetchdata.service_start_date}        
+                />
         
+        
+    </div>        
+
+    <div className="ml-[24px] w-[20%]">
+
+    <FormikFieldInput 
+                type="date"
+                label={DataLabel.service_end_date} 
+                name={`fetchdata.service_end_date`}
+                placeHolder={`${DataLabel.service_end_date}`}
+                errorMessage ={ errors.fetchdata &&                                        
+                    errors.fetchdata.service_end_date &&
+                    touched.fetchdata &&            
+                    touched.fetchdata.service_end_date &&  errors.fetchdata.service_end_date}        
+                />
         
         
     </div>
-    
-    <div className="ml-[24px] w-[50%]">
+
+    <div className="ml-[24px] w-[20%]">
 
     <FormikSelectInput
             label={DataLabel.recertification}
@@ -831,19 +569,239 @@ export default function PatientCreate() {
                 errors.fetchdata.recertification.label
             }
         />
+            
+            
+    </div>
 
+    <div className="ml-[24px] w-[20%]">
     
         
+        
     </div>
+
+    <div className="ml-[24px] w-[20%]">
+
+   
+
+    </div>        
+
+    
+    
+    
 </div>
 
 
 
+</Accordion>
 
-<hr className="mt-5 border-stroke"/>
+<div className="flex flex-row mt-[30px]"></div>
+
+<Accordion title="Others Information">
 
 
-<div className="flex flex-row mt-5">
+<div className="flex flex-row mt-[15px]">
+
+<div className="w-[20%]">
+<FormikSelectInput
+        label={DataLabel.current_insurance}
+        defaultValue={fetchdata.current_insurance}
+        placeHolder={``}
+        isSearchable={true}
+        isClearable={true}
+        name="fetchdata.current_insurance"
+        dataOptions={insuranceData}
+        errorMessage={errors.fetchdata &&
+            errors.fetchdata.current_insurance &&
+            touched.fetchdata &&
+            touched.fetchdata.current_insurance &&
+            errors.fetchdata.current_insurance.label
+        }
+    />
+    
+    
+</div>        
+
+<div className="ml-[24px] w-[20%]">
+
+<FormikFieldInput 
+    label={DataLabel.current_plancode} 
+    name={`fetchdata.current_plancode`}                
+    placeHolder={`${DataLabel.current_plancode}`}
+    errorMessage ={ errors.fetchdata &&                                        
+        errors.fetchdata.current_plancode &&
+        touched.fetchdata &&            
+        touched.fetchdata.current_plancode &&  errors.fetchdata.current_plancode}        
+    />
+    
+    
+</div>
+
+<div className="ml-[24px] w-[20%]">
+
+<FormikSelectInput
+            label={DataLabel.allocated_insurance}
+            defaultValue={fetchdata.allocated_insurance}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.allocated_insurance"
+            dataOptions={insuranceData}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.allocated_insurance &&
+                touched.fetchdata &&
+                touched.fetchdata.allocated_insurance &&
+                errors.fetchdata.allocated_insurance.label
+            }
+        />
+        
+        
+</div>
+
+<div className="ml-[24px] w-[20%]">
+
+<FormikFieldInput 
+        label={DataLabel.allocated_plancode} 
+        name={`fetchdata.allocated_plancode`}            
+        placeHolder={`${DataLabel.allocated_plancode}`}
+        errorMessage ={ errors.fetchdata &&                                        
+            errors.fetchdata.allocated_plancode &&
+            touched.fetchdata &&            
+            touched.fetchdata.allocated_plancode &&  errors.fetchdata.allocated_plancode}        
+        />
+    
+</div>
+
+<div className="ml-[24px] w-[20%]">
+
+<FormikSelectInput
+            label={DataLabel.consumer_status}
+            defaultValue={fetchdata.consumer_status}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.consumer_status"
+            dataOptions={ConsumerStatus}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.consumer_status &&
+                touched.fetchdata &&
+                touched.fetchdata.consumer_status &&
+                errors.fetchdata.consumer_status.label
+            }
+        />
+
+
+
+</div>        
+
+
+
+
+</div>
+
+
+<div className="flex flex-row mt-[30px]">
+
+<div className="w-[20%]">
+<FormikSelectInput
+            label={DataLabel.case_status}
+            defaultValue={fetchdata.case_status}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.case_status"
+            dataOptions={CaseStatus}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.case_status &&
+                touched.fetchdata &&
+                touched.fetchdata.case_status &&
+                errors.fetchdata.case_status.label
+            }
+        />
+    
+    
+</div>        
+
+<div className="ml-[24px] w-[20%]">
+
+<FormikFieldInput 
+                type="date"
+                label={DataLabel.projected_encrollment_date} 
+                name={`fetchdata.projected_encrollment_date`}
+                placeHolder={`${DataLabel.projected_encrollment_date}`}
+                errorMessage ={ errors.fetchdata &&                                        
+                    errors.fetchdata.projected_encrollment_date &&
+                    touched.fetchdata &&            
+                    touched.fetchdata.projected_encrollment_date &&  errors.fetchdata.projected_encrollment_date}        
+                />
+    
+    
+</div>
+
+<div className="ml-[24px] w-[20%]">
+
+<FormikFieldInput 
+                type="date"
+                label={DataLabel.confirmed_encrollment_date} 
+                name={`fetchdata.confirmed_encrollment_date`}
+                placeHolder={`${DataLabel.confirmed_encrollment_date}`}
+                errorMessage ={ errors.fetchdata &&                                        
+                    errors.fetchdata.confirmed_encrollment_date &&
+                    touched.fetchdata &&            
+                    touched.fetchdata.confirmed_encrollment_date &&  errors.fetchdata.confirmed_encrollment_date}        
+                />
+        
+        
+</div>
+
+<div className="ml-[24px] w-[20%]">
+
+<FormikSelectInput
+            label={DataLabel.internal_marketer}
+            defaultValue={fetchdata.internal_marketer}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.internal_marketer"
+            dataOptions={internalMarketerData}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.internal_marketer &&
+                touched.fetchdata &&
+                touched.fetchdata.internal_marketer &&
+                errors.fetchdata.internal_marketer.label
+            }
+        />
+    
+</div>
+
+<div className="ml-[24px] w-[20%]">
+
+<FormikSelectInput
+            label={DataLabel.external_marketer}
+            defaultValue={fetchdata.external_marketer}
+            placeHolder={``}
+            isSearchable={true}
+            isClearable={true}
+            name="fetchdata.external_marketer"
+            dataOptions={externalMarketerData}
+            errorMessage={errors.fetchdata &&
+                errors.fetchdata.external_marketer &&
+                touched.fetchdata &&
+                touched.fetchdata.external_marketer &&
+                errors.fetchdata.external_marketer.label
+            }
+        />
+
+
+
+</div>        
+
+
+
+
+</div>
+
+
+<div className="flex flex-row mt-[30px]">
 
     <div className="w-full">
 
@@ -853,7 +811,7 @@ export default function PatientCreate() {
               {values.fetchdata.caregiver.length > 0 &&
                 values.fetchdata.caregiver.map((_, index) => (
                   <div key={index} className="flex flex-row">
-                    <div className="w-[50%] mt-1">
+                    <div className="w-[20%]">
 
                     <FormikSelectRemote
             label={`${DataLabel.caregiver} ${index+1}`}
@@ -881,7 +839,7 @@ export default function PatientCreate() {
                     <div className="w-[10%] ml-[20px]">
                     <button
                       type="button"
-                      className="bg-meta-1 rounded text-white mt-10"
+                      className="bg-meta-1 rounded text-white mt-9"
                       onClick={() => remove(index)}
                     >
                       <p className="py-2 px-2">Remove</p>
@@ -894,10 +852,10 @@ export default function PatientCreate() {
                 ))}
 
             <div className="flex flex-row">
-                <div className="w-[30%]">    
+                <div className="w-[20%]">    
                     <button
                         type="button"
-                        className=" bg-meta-5 rounded text-white mt-10 ml-8 flex items-center gap-2.5 py-1 px-2"
+                        className=" bg-meta-5 rounded text-white mt-[30px] flex items-center gap-2.5 py-1 px-2"
                         onClick={() => push({'label':'','value':''})}
                     >
 
@@ -918,6 +876,113 @@ export default function PatientCreate() {
 
 </div>
 
+</Accordion>
+
+<div className="flex flex-row mt-[30px]"></div>
+
+<Accordion title="Patients Form">
+<div className="flex flex-row gap-5 mt-[15px]">
+{
+    Object.keys(patientFormData).map((key, index) => {
+        const label = DataLabel[key];
+
+        
+        return(
+        <div className="w-[20%] flex flex-col" key={index}>
+            <div className="h-[90px] w-full">
+            <FileUpload
+            label={label}
+            allowed_extension={['png','jpg','jpeg','pdf','docx']} 
+            onFileUpload={(fileId: string)=>{
+                const settingData:any = {...patientForm, [key]:fileId } 
+                setPatientForm(settingData) 
+            }} chunkUrl={`${url}upload-chunk/patient_${key}`} />
+            </div>
+
+            {patientForm[key]!='' &&
+            <div className="w-full mt-[30px] h-8">
+                <div className="flex flex-row items-center justify-center">
+                    <div className="w-[70%] flex justify-start">
+                        <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientForm[key]}`}>
+                            Download / Preview
+                        </Link>
+                    </div>
+                    <div className="w-[30%] flex justify-end">
+                        <button onClick={()=>{ 
+                            const settingData:any = {...patientForm, [key]:'' }
+                            setPatientForm(settingData)
+                        }} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+            }
+
+        </div>
+        )
+
+    })
+
+}
+</div>
+</Accordion>
+
+<div className="flex flex-row mt-[30px]"></div>
+
+<Accordion title="Patients Code Related Form">
+<div className="flex flex-row gap-5 mt-[15px]">
+
+
+{
+    Object.keys(patientCodeFormData).map((key, index) => {
+        const label = DataLabel[key];
+
+        
+        return(
+        <div className="w-[20%] flex flex-col" key={index}>
+            <div className="h-[90px] w-full">
+            <FileUpload
+            label={label}
+            allowed_extension={['png','jpg','jpeg','pdf','docx']} 
+            onFileUpload={(fileId: string)=>{
+                const settingData:any = {...patientCodeForm, [key]:fileId } 
+                setPatientCodeForm(settingData) 
+            }} chunkUrl={`${url}upload-chunk/patient_${key}`} />
+            </div>
+
+            {patientCodeForm[key]!='' &&
+            <div className="w-full mt-[30px] h-8">
+                <div className="flex flex-row items-center justify-center">
+                    <div className="w-[70%] flex justify-start">
+                        <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientCodeForm[key]}`}>
+                            Download / Preview
+                        </Link>
+                    </div>
+                    <div className="w-[30%] flex justify-end">
+                        <button onClick={()=>{ 
+                            const settingData:any = {...patientCodeForm, [key]:'' }
+                            setPatientCodeForm(settingData)
+                        }} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+            }
+
+        </div>
+        )
+
+    })
+
+}
+
+</div>
+</Accordion>
+
+
+
 
 
 
@@ -932,126 +997,12 @@ export default function PatientCreate() {
 
 
 
-</FormikFormHolder>
+</Form>
         )}
         />
 
         </div>
-        <div className="w-[30%]">
-
-
-        <CardLegendHolder legend={`Patients Form`}>
-
-            <div className="flex flex-row">
-                <div className="w-full">
-                {
-                    Object.keys(patientFormData).map((key, index) => {
-                        const label = DataLabel[key];
-
-                        
-                        return(
-                        <div className="flex flex-col" key={index}>
-                            <div className="h-[90px] w-full">
-                            <FileUpload
-                            label={label}
-                            allowed_extension={['png','jpg','jpeg','pdf','docx']} 
-                            onFileUpload={(fileId: string)=>{
-                                const settingData:any = {...patientForm, [key]:fileId } 
-                                setPatientForm(settingData) 
-                            }} chunkUrl={`${url}upload-chunk/patient_${key}`} />
-                            </div>
-
-                            {patientForm[key]!='' &&
-                            <div className="w-full mt-1 mb-5 h-8">
-                                <div className="flex flex-row items-center justify-center">
-                                    <div className="w-[70%] flex justify-center">
-                                        <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientForm[key]}`}>
-                                            Download / Preview
-                                        </Link>
-                                    </div>
-                                    <div className="w-[30%] flex justify-center">
-                                        <button onClick={()=>{ 
-                                            const settingData:any = {...patientForm, [key]:'' }
-                                            setPatientForm(settingData)
-                                        }} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
-                                            Remove
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            }
-
-                        </div>
-                        )
-
-                    })
-
-                }
-                
-                
-
-                </div>
-            </div>
-
-        </CardLegendHolder>
-
-
-        <CardLegendHolder legend={`Patients Code related forms`}>
-
-            <div className="flex flex-row">
-                <div className="w-full">
-                {
-                    Object.keys(patientCodeFormData).map((key, index) => {
-                        const label = DataLabel[key];
-
-                        
-                        return(
-                        <div className="flex flex-col" key={index}>
-                            <div className="h-[90px] w-full">
-                            <FileUpload
-                            label={label}
-                            allowed_extension={['png','jpg','jpeg','pdf','docx']} 
-                            onFileUpload={(fileId: string)=>{
-                                const settingData:any = {...patientCodeForm, [key]:fileId } 
-                                setPatientCodeForm(settingData) 
-                            }} chunkUrl={`${url}upload-chunk/patient_${key}`} />
-                            </div>
-
-                            {patientCodeForm[key]!='' &&
-                            <div className="w-full mt-1 mb-5 h-8">
-                                <div className="flex flex-row items-center justify-center">
-                                    <div className="w-[70%] flex justify-center">
-                                        <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientCodeForm[key]}`}>
-                                            Download / Preview
-                                        </Link>
-                                    </div>
-                                    <div className="w-[30%] flex justify-center">
-                                        <button onClick={()=>{ 
-                                            const settingData:any = {...patientCodeForm, [key]:'' }
-                                            setPatientCodeForm(settingData)
-                                        }} className="bg-meta-1 rounded text-white text-[16px] px-4 py-[2px]">
-                                            Remove
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            }
-
-                        </div>
-                        )
-
-                    })
-
-                }
-                
-                
-
-                </div>
-            </div>
-
-        </CardLegendHolder>
-
-        </div>
+        
             </div>
             
 

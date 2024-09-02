@@ -10,6 +10,8 @@ export const DataSchema = {
     bank_routing_no:'',
     gender:{'label':'','value':''},
 
+    pay_rate:0,
+
     working_schedule: [
       { 
         weekDay: {'label':'','value':''}, 
@@ -42,6 +44,8 @@ export const DataLabel = {
     bank_acc_no:'Bank Account Number',
     bank_routing_no:'Bank Routing Number',
     gender:'Gender',
+
+    pay_rate:'Pay Rate',
 
     working_schedule:'Working Schedule',
     weekDay:'Week Day',

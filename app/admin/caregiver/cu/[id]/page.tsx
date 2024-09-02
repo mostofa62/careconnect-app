@@ -345,6 +345,23 @@ export default function CaregiverCreate({
         
         
     </div>
+
+    <div className="ml-[24px] w-[50%]">
+
+    <FormikFieldInput 
+    type="number" 
+    step={`any`}
+        label={DataLabel.pay_rate} 
+        name={`fetchdata.pay_rate`}
+        placeHolder={`${DataLabel.pay_rate}`}
+        errorMessage ={ errors.fetchdata &&                                        
+            errors.fetchdata.pay_rate &&
+            touched.fetchdata &&            
+            touched.fetchdata.pay_rate &&  errors.fetchdata.pay_rate}        
+        />
+        
+        
+    </div>
     
    
 </div>

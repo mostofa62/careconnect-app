@@ -39,7 +39,7 @@ export const DataSchema = {
 
     email:'',
 
-    pay_rate:0,
+    
     allocated_hours:0,
 
 
@@ -118,7 +118,7 @@ export const DataLabel:any = {
 
     email:'Email',
 
-    pay_rate:'Pay Rate',
+    
     allocated_hours:'Allocated Hours',
 
 
@@ -192,6 +192,11 @@ export const ValidationSchema =  object().shape({
               .email(`Provide a ${DataLabel.email} Email address`)
               .required(`${DataLabel.email} is required`),
 
+              dob: string()
+                .ensure()
+                .matches(/^\d{4}-\d{2}-\d{2}$/i,`provide valid ${DataLabel.dob}`)
+                .required(`${DataLabel.dob} is required`),
+
               
 
               phone: string()
@@ -216,9 +221,7 @@ export const ValidationSchema =  object().shape({
                 label: string().required(`${DataLabel.restriction_code} is required`)
               }),
 
-
-              pay_rate: number().min(0,`${DataLabel.pay_rate} least 0`)              
-                .required(`${DataLabel.pay_rate} is required`),
+              
 
               allocated_hours: number().min(0,`${DataLabel.allocated_hours} least 0`)              
               .required(`${DataLabel.allocated_hours} is required`),
