@@ -28,8 +28,32 @@ interface DataRow {
     ssn:string;
     zipCode:number;
 
+    recertification:any;
+    city:any;
+    county:any;
+    restriction_code:any;
 
-    service_type:string;
+    cha_appointment_date:string;
+    ipp_appointment_date:string;
+
+    insrn_assessment_date:string;
+    addn_assessment_date:string;
+
+
+    service_start_date:string;
+    service_end_date:string;
+
+    primary_caregiver:any;
+    secondary_caregiver:any;
+
+    phone:string;
+    cell_phone:string;
+    email:string;
+
+    allocated_hours:number;
+
+
+    service_type:any;
 
 
 
@@ -44,6 +68,9 @@ interface DataRow {
     bankstatement_id:string;
     addn_doc_id1:string;
     addn_doc_id2:string;
+
+    caregiver:any[];
+    
 }
 
 
@@ -113,7 +140,10 @@ export default function Patient() {
         
         
      
-
+        {
+            accessorKey: 'recertification.label',
+            header: 'Recertification',
+        },
     
         /*
         {
@@ -276,7 +306,7 @@ export default function Patient() {
 
                 <CardHolder  key={row.original.patient_id} title={row.original.patient_id}>
                     
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-3 gap-4">
                     
                     <div className="border rounded p-2 text-[15px] border-[#C3C9CE] w-[full]">
                     <table className="tanstack-table table-auto w-full text-left">
@@ -286,8 +316,18 @@ export default function Patient() {
                             <td>{row.original.patient_id}</td>
                         </tr>
                         <tr>
-                            <th>{DataLabel.full_name}</th>
-                            <td>{row.original.first_name} {row.original.middle_name} {row.original.last_name}</td>
+                            <th>{DataLabel.first_name}</th>
+                            <td>{row.original.first_name}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.middle_name}</th>
+                            <td>{row.original.middle_name}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.last_name}</th>
+                            <td>{row.original.last_name}</td>
                         </tr>
 
                         <tr>
@@ -301,14 +341,107 @@ export default function Patient() {
                         </tr>
 
                         <tr>
-                            <th>{DataLabel.address}</th>
-                            <td>{row.original.address}</td>
+                            <th>{DataLabel.medicaid_id}</th>
+                            <td>{row.original.medicaid_id}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.recertification}</th>
+                            <td>{row.original.recertification.label}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.city}</th>
+                            <td>{row.original.city.label}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.county}</th>
+                            <td>{row.original.county.label}</td>
                         </tr>
 
                         <tr>
                             <th>{DataLabel.zipCode}</th>
                             <td>{row.original.zipCode}</td>
                         </tr>
+
+                        <tr>
+                            <th>{DataLabel.phone}</th>
+                            <td>{row.original.phone}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.cell_phone}</th>
+                            <td>{row.original.cell_phone}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.email}</th>
+                            <td>{row.original.email}</td>
+                        </tr>
+                        
+
+                    </table>
+                    </div>
+
+                    <div className="border rounded p-2 text-[15px] border-[#C3C9CE] w-[full]">
+                    <table className="tanstack-table table-auto w-full text-left">
+
+                        <tr>
+                            <th>{DataLabel.service_start_date}</th>
+                            <td>{row.original.service_start_date}</td>
+                        </tr>
+                        <tr>
+                            <th>{DataLabel.service_end_date}</th>
+                            <td>{row.original.service_end_date}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.restriction_code}</th>
+                            <td>{row.original.restriction_code.label}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.allocated_hours}</th>
+                            <td>{row.original.allocated_hours}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.cha_appointment_date}</th>
+                            <td>{row.original.cha_appointment_date}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.ipp_appointment_date}</th>
+                            <td>{row.original.ipp_appointment_date}</td>
+                        </tr>
+
+
+                        <tr>
+                            <th>{DataLabel.insrn_assessment_date}</th>
+                            <td>{row.original.insrn_assessment_date}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.addn_assessment_date}</th>
+                            <td>{row.original.addn_assessment_date}</td>
+                        </tr>
+                        
+                        {
+
+                            row.original.caregiver.length > 0 &&
+                            row.original.caregiver.map((data, index)=>{
+
+                                if(data.label == '') return;
+                                return(
+                                <tr key={index}>
+                                    <th>{`${DataLabel.caregiver} ${index+1}`}</th>
+                                    <td>{data.label}</td>
+                                </tr>
+                                )
+                            })
+
+                        }
                         
 
                     </table>

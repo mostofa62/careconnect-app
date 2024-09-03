@@ -159,7 +159,7 @@ export const DataLabel:any = {
 
 export const ValidationSchema =  object().shape({
   fetchdata:object().shape({
-
+            /*
             current_insurance:object().shape({
               value: string().required(),
               label: string().required(`${DataLabel.current_insurance} is required`)
@@ -169,6 +169,7 @@ export const ValidationSchema =  object().shape({
               value: string().required(),
               label: string().required(`${DataLabel.allocated_insurance} is required`)
             }),
+            */
             
             first_name: string()
             .ensure()
@@ -181,16 +182,17 @@ export const ValidationSchema =  object().shape({
               medicaid_id: string()
               .ensure()
               .required(`${DataLabel.medicaid_id} is required`),
-
-              ssn: string()
+              
+              address: string()
               .ensure()
-              .required(`${DataLabel.ssn} is required`),
+              .required(`${DataLabel.address} is required`),
+              
 
 
               email: string()
               .ensure()
-              .email(`Provide a ${DataLabel.email} Email address`)
-              .required(`${DataLabel.email} is required`),
+              .email(`Provide a ${DataLabel.email} Email address`),
+              /*.required(`${DataLabel.email} is required`),*/
 
               dob: string()
                 .ensure()
@@ -198,12 +200,12 @@ export const ValidationSchema =  object().shape({
                 .required(`${DataLabel.dob} is required`),
 
               
-
+              /*
               phone: string()
               .ensure()
               .matches(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d*)\)?)[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?)+)(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i,`provide valid ${DataLabel.phone}`)
               .required(`${DataLabel.phone} is required`),
-
+              */
 
               cell_phone: string()
               .ensure()
@@ -215,7 +217,7 @@ export const ValidationSchema =  object().shape({
               .ensure()
               .matches(/^(?!00000)\d{5}(?:[-\s](?!0000)\d{4})?$/,`provide valid ${DataLabel.zipCode}`)
               .required(`${DataLabel.zipCode} is required`),
-
+              /*
               restriction_code:object().shape({
                 value: string().required(),
                 label: string().required(`${DataLabel.restriction_code} is required`)
@@ -237,7 +239,7 @@ export const ValidationSchema =  object().shape({
                 .matches(/^\d{4}-\d{2}-\d{2}$/i,`provide valid ${DataLabel.service_end_date}`)
                 .required(`${DataLabel.service_end_date} is required`),
 
-
+                */
                 /*
                 caregiver: array()
                 .of(
