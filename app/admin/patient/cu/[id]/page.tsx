@@ -57,18 +57,48 @@ export default function PatientCreate({
 
     const externalMarketerData = useFetchDropDownData({urlSuffix:`marketer-dropdown/2`});
 
-    const caregiver = appCtx.caregiver;
 
-    const caregiverData = useFetchDropDownData({urlSuffix:`caregiver-dropdown`});
-
+    let patientFormData = {
+        nyia_form_id:'',
+        doh_form_id:'',
+        m11q_form_id:'',
+        enrollment_doc_id:'',
+        mou_form_id:''
+    }
     
+    const [patientForm, setPatientForm] = useState<any>(patientFormData)
+
+    let patientCodeFormData = {
+        letterofsupport_id:'',
+        supplymentaform_id:'',
+        bankstatement_id:'',
+        addn_doc_id1:'',
+        addn_doc_id2:''
+    }
+
+    const [patientCodeForm, setPatientCodeForm] = useState<any>(patientCodeFormData)
+   
 
 
     const fetchDataCallback=useCallback(async()=>{
         //console.log(id);
         const response = await axios.get(`${url}patient/${id}`);
         //return response.data.user;
-        setFetchFormData(response.data.patient);        
+        setFetchFormData(response.data.patient);
+        
+        setPatientForm({
+            ...patientFormData,
+            ...Object.fromEntries(
+                Object.entries(response.data.patient).filter(([key]) => key in patientFormData)
+            )
+        });
+
+        setPatientCodeForm({
+            ...patientCodeFormData,
+            ...Object.fromEntries(
+                Object.entries(response.data.patient).filter(([key]) => key in patientCodeFormData)
+            )
+        });
         
     },[id]);
 
@@ -82,25 +112,7 @@ export default function PatientCreate({
 
     const fetchdata = {...DataSchema,...fetchFomrData};
 
-    const patientFormData = {
-        nyia_form_id:fetchdata.nyia_form_id,
-        doh_form_id:fetchdata.doh_form_id,
-        m11q_form_id:fetchdata.m11q_form_id,
-        enrollment_doc_id:fetchdata.enrollment_doc_id,
-        mou_form_id:fetchdata.mou_form_id
-    }
     
-    const [patientForm, setPatientForm] = useState<any>(patientFormData)
-
-    const patientCodeFormData = {
-        letterofsupport_id:fetchdata.letterofsupport_id,
-        supplymentaform_id:fetchdata.supplymentaform_id,
-        bankstatement_id:fetchdata.bankstatement_id,
-        addn_doc_id1:fetchdata.addn_doc_id1,
-        addn_doc_id2:fetchdata.addn_doc_id2
-    }
-
-    const [patientCodeForm, setPatientCodeForm] = useState<any>(patientCodeFormData)
     
     
 
@@ -835,13 +847,14 @@ export default function PatientCreate({
                       {({ insert, remove, push }:any) => (
                         <div>
                           {values.fetchdata.caregiver.length > 0 &&
-                            values.fetchdata.caregiver.map((_, index) => (
+                            values.fetchdata.caregiver.map((field, index) => (
                               <div key={index} className="flex flex-row">
                                 <div className="w-[20%]">
-            
+                                    {/*JSON.stringify(field)*/}
+                                { /*JSON.stringify(fetchdata.caregiver[index]!==undefined ? fetchdata.caregiver[index]:  fetchdata.caregiver[0])*/}
                                 <FormikSelectRemote
                         label={`${DataLabel.caregiver} ${index+1}`}
-                        defaultValue={fetchdata.caregiver[0]}
+                        defaultValue={field}
                         placeHolder={``}
                         isSearchable={true}
                         isClearable={true}
@@ -882,7 +895,7 @@ export default function PatientCreate({
                                 <button
                                     type="button"
                                     className=" bg-meta-5 rounded text-white mt-[30px] flex items-center gap-2.5 py-1 px-2"
-                                    onClick={() => push({'label':'','value':''})}
+                                    onClick={() => push(DataSchema.caregiver[0])}
                                 >
             
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={20} height={20} strokeWidth="1.5" stroke="currentColor" className="">
@@ -907,7 +920,7 @@ export default function PatientCreate({
             <div className="flex flex-row mt-[30px]"></div>
             
             <Accordion title="Patients Form">
-            <div className="flex flex-row gap-5 mt-[15px]">
+            <div className="flex flex-row gap-5 mt-[15px]">                
             {
                 Object.keys(patientFormData).map((key, index) => {
                     const label = DataLabel[key];
@@ -915,7 +928,7 @@ export default function PatientCreate({
                     
                     return(
                     <div className="w-[20%] flex flex-col" key={index}>
-                        <div className="h-[90px] w-full">
+                        <div className="h-[90px] w-full">                            
                         <FileUpload
                         label={label}
                         allowed_extension={['png','jpg','jpeg','pdf','docx']} 
@@ -930,7 +943,7 @@ export default function PatientCreate({
                             <div className="flex flex-row items-center justify-center">
                                 <div className="w-[70%] flex justify-start">
                                     <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientForm[key]}`}>
-                                        Download / Preview
+                                        Download
                                     </Link>
                                 </div>
                                 <div className="w-[30%] flex justify-end">
@@ -982,7 +995,7 @@ export default function PatientCreate({
                             <div className="flex flex-row items-center justify-center">
                                 <div className="w-[70%] flex justify-start">
                                     <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientCodeForm[key]}`}>
-                                        Download / Preview
+                                        Download
                                     </Link>
                                 </div>
                                 <div className="w-[30%] flex justify-end">

@@ -34,7 +34,7 @@ const customStyles = {
     ...provided,
     boxShadow: 'none',    
     borderColor: state.isFocused ? '#0a4a82' : '#DFDFDF', // Change the border color here
-    
+    minHeight: '43px',
     '&:hover': {
       borderColor: state.isFocused ? '#0a4a82' : '#DFDFDF', // Change the border color on hover
     },
@@ -51,6 +51,8 @@ const SelectNonCreatableComponent = (props:SelectProps) => {
   return (
     <>
       <Select
+      menuPortalTarget={document.body}
+      menuPosition='fixed'
       classNames={{
         /*
         control: ({ isFocused }) =>

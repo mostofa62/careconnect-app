@@ -190,10 +190,13 @@ const RemoteSelect = ({
     <div ref={selectRef}>
       {/*JSON.stringify(defaultValueOptions)*/}
     <Select
+
+      menuPortalTarget={document.body}
+      menuPosition='fixed'
       
       key={selectKey}      
       styles={customStyles}
-      defaultValue={defaultValueOptions}
+      value={defaultValueOptions}
       placeholder={placeholder||"Type to search"}      
       isMulti={isMulti || false}
       isClearable={isClearable || false}

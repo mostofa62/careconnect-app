@@ -49,9 +49,6 @@ export default function PatientCreate() {
 
     const externalMarketerData = useFetchDropDownData({urlSuffix:`marketer-dropdown/2`});
 
-    const caregiver = appCtx.caregiver;
-
-    const caregiverData = useFetchDropDownData({urlSuffix:`caregiver-dropdown`});
 
     const patientFormData = {
         nyia_form_id:'',
@@ -510,6 +507,7 @@ export default function PatientCreate() {
                 errors.fetchdata.service_type.label
             }
         />
+        
 
     </div>        
 
@@ -554,6 +552,7 @@ export default function PatientCreate() {
 
     <div className="ml-[24px] w-[20%]">
 
+
     <FormikSelectInput
             label={DataLabel.recertification}
             defaultValue={fetchdata.recertification}
@@ -569,6 +568,8 @@ export default function PatientCreate() {
                 errors.fetchdata.recertification.label
             }
         />
+
+    
             
             
     </div>
@@ -809,13 +810,13 @@ export default function PatientCreate() {
           {({ insert, remove, push }:any) => (
             <div>
               {values.fetchdata.caregiver.length > 0 &&
-                values.fetchdata.caregiver.map((_, index) => (
+                values.fetchdata.caregiver.map((field, index) => (
                   <div key={index} className="flex flex-row">
                     <div className="w-[20%]">
-
+                    {JSON.stringify(field)}
                     <FormikSelectRemote
             label={`${DataLabel.caregiver} ${index+1}`}
-            defaultValue={fetchdata.caregiver[0]}
+            defaultValue={field}
             placeHolder={``}
             isSearchable={true}
             isClearable={true}
@@ -856,7 +857,7 @@ export default function PatientCreate() {
                     <button
                         type="button"
                         className=" bg-meta-5 rounded text-white mt-[30px] flex items-center gap-2.5 py-1 px-2"
-                        onClick={() => push({'label':'','value':''})}
+                        onClick={() => push(DataSchema.caregiver[0])}
                     >
 
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={20} height={20} strokeWidth="1.5" stroke="currentColor" className="">
@@ -904,7 +905,7 @@ export default function PatientCreate() {
                 <div className="flex flex-row items-center justify-center">
                     <div className="w-[70%] flex justify-start">
                         <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientForm[key]}`}>
-                            Download / Preview
+                            Download
                         </Link>
                     </div>
                     <div className="w-[30%] flex justify-end">
@@ -956,7 +957,7 @@ export default function PatientCreate() {
                 <div className="flex flex-row items-center justify-center">
                     <div className="w-[70%] flex justify-start">
                         <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientCodeForm[key]}`}>
-                            Download / Preview
+                            Download
                         </Link>
                     </div>
                     <div className="w-[30%] flex justify-end">

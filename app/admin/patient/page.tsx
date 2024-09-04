@@ -11,13 +11,15 @@ import GridActionLink from "@/app/components/grid/GridActionLink";
 import { confirmAlert } from "react-confirm-alert";
 import CardHolder from "@/app/components/ui/CardHolder";
 import { DataLabel } from "./cu/DataValidationSchema";
+import Loading from "@/app/loading";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 const per_page_list = PerPageList();
 const per_page = per_page_list[0];
 
 interface DataRow {
-    _id:string;    
+    _id:string;
+    consumer_status:any;    
     patient_id: string;
     first_name:string;
     middle_name:string;
@@ -54,6 +56,7 @@ interface DataRow {
 
 
     service_type:any;
+    case_status:any;
 
 
 
@@ -70,6 +73,19 @@ interface DataRow {
     addn_doc_id2:string;
 
     caregiver:any[];
+
+    projected_encrollment_date:string;
+    confirmed_encrollment_date:string;
+
+    current_insurance:any;
+    allocated_insurance:any;
+    current_plancode:string;
+    allocated_plancode:string;
+
+    internal_marketer:any;
+    external_marketer:any;
+
+
     
 }
 
@@ -295,21 +311,58 @@ export default function Patient() {
                 </div>
             </div>
 
-            <div className="mt-10 p-2">  
+            <div className="mt-[10px] p-2">  
 
 
                 <div className="grid grid-cols-1 gap-4">
 
+                {
+                    loading &&
+                    <div className="border rounded p-4 mt-5 text-[15px] border-[#C3C9CE] w-[full] flex justify-center">
+                    <Loading/>
+                    </div>
+                }
+                
+
+                {
+                    !loading && table.getRowModel().rows.length < 1 && error &&
+
+                    <div className="border rounded p-4 mt-5 text-[15px] border-[#C3C9CE] w-[full] flex justify-center">
+                        <p className="text-[20px] capitalize">{error}</p>
+                    </div>
+
+                }
+
+                {
+                    !loading && table.getRowModel().rows.length < 1 &&
+
+                    <div className="border rounded p-4 mt-5 text-[15px] border-[#C3C9CE] w-[full] flex justify-center">
+                        <p className="text-[20px] capitalize">no result found!</p>
+                    </div>
+
+                }
 
 
-                {table.getRowModel().rows.map(row => (
+                {!loading && table.getRowModel().rows.map(row => (
 
                 <CardHolder  key={row.original.patient_id} title={row.original.patient_id}>
                     
                     <div className="grid grid-cols-3 gap-4">
                     
                     <div className="border rounded p-2 text-[15px] border-[#C3C9CE] w-[full]">
-                    <table className="tanstack-table table-auto w-full text-left">
+                    <table className="table-auto w-full text-left divide-y">
+
+                    <tbody>
+
+                        <tr>
+                            <th>{DataLabel.consumer_status}</th>
+                            <td>{row.original.consumer_status.label}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.case_status}</th>
+                            <td>{row.original.case_status.label}</td>
+                        </tr>
 
                         <tr>
                             <th>{DataLabel.patient_id}</th>
@@ -335,6 +388,8 @@ export default function Patient() {
                             <td>{row.original.dob}</td>
                         </tr>
 
+                        
+
                         <tr>
                             <th>{DataLabel.ssn}</th>
                             <td>{row.original.ssn}</td>
@@ -348,6 +403,11 @@ export default function Patient() {
                         <tr>
                             <th>{DataLabel.recertification}</th>
                             <td>{row.original.recertification.label}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.address}</th>
+                            <td>{row.original.address}</td>
                         </tr>
 
                         <tr>
@@ -381,11 +441,40 @@ export default function Patient() {
                         </tr>
                         
 
+                        <tr>
+                            <th>{DataLabel.current_insurance}</th>
+                            <td>{row.original.current_insurance.label}</td>
+                        </tr>
+
+                        <tr className="whitespace-nowrap">
+                            <th>{DataLabel.current_plancode}</th>
+                            <td>{row.original.current_plancode}</td>
+                        </tr>
+
+
+                        <tr>
+                            <th>{DataLabel.allocated_insurance}</th>
+                            <td>{row.original.allocated_insurance.label}</td>
+                        </tr>
+
+                        <tr className="whitespace-nowrap">
+                            <th>{DataLabel.allocated_plancode}</th>
+                            <td>{row.original.allocated_plancode}</td>
+                        </tr>
+
+                        
+                    </tbody>    
+
                     </table>
                     </div>
 
                     <div className="border rounded p-2 text-[15px] border-[#C3C9CE] w-[full]">
-                    <table className="tanstack-table table-auto w-full text-left">
+                    <table className="table-auto w-full text-left divide-y">
+                        <tbody>
+                        <tr>
+                            <th>{DataLabel.service_type}</th>
+                            <td>{row.original.service_type.label}</td>
+                        </tr>
 
                         <tr>
                             <th>{DataLabel.service_start_date}</th>
@@ -421,10 +510,32 @@ export default function Patient() {
                             <th>{DataLabel.insrn_assessment_date}</th>
                             <td>{row.original.insrn_assessment_date}</td>
                         </tr>
+                        
+
 
                         <tr>
                             <th>{DataLabel.addn_assessment_date}</th>
                             <td>{row.original.addn_assessment_date}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.projected_encrollment_date}</th>
+                            <td>{row.original.projected_encrollment_date}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.confirmed_encrollment_date}</th>
+                            <td>{row.original.confirmed_encrollment_date}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.internal_marketer}</th>
+                            <td>{row.original.internal_marketer.label}</td>
+                        </tr>
+
+                        <tr>
+                            <th>{DataLabel.external_marketer}</th>
+                            <td>{row.original.external_marketer.label}</td>
                         </tr>
                         
                         {
@@ -442,6 +553,8 @@ export default function Patient() {
                             })
 
                         }
+
+                        </tbody>
                         
 
                     </table>
@@ -449,7 +562,8 @@ export default function Patient() {
 
                     <div className="border rounded p-2 border-[#C3C9CE] w-[full]">
 
-                    <table className="tanstack-table table-auto w-full text-left">
+                    <table className="table-auto w-full text-left divide-y">
+                        <tbody>
                         <tr>
                             <th>{DataLabel.nyia_form_id}</th>
                             <td>
@@ -534,7 +648,7 @@ export default function Patient() {
                             <td>
                             {row.original.bankstatement_id!=null &&
                             <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${row.original.bankstatement_id}`}>
-                                Download / Preview
+                                Download
                             </Link>
                             }
                             </td>
@@ -546,7 +660,7 @@ export default function Patient() {
                             <td>
                             {row.original.addn_doc_id1!=null &&
                             <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${row.original.addn_doc_id1}`}>
-                                Download / Preview
+                                Download 
                             </Link>
                             }
                             </td>
@@ -558,11 +672,13 @@ export default function Patient() {
                             <td>
                             {row.original.addn_doc_id2!=null &&
                             <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${row.original.addn_doc_id2}`}>
-                                Download / Preview
+                                Download 
                             </Link>
                             }
                             </td>
                         </tr>
+
+                        </tbody>
 
                     </table>
 
