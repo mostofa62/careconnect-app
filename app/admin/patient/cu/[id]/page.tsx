@@ -157,7 +157,7 @@ export default function PatientCreate({
     return(
         <>
         <DefaultLayout>
-        <div className="grid grid-flow-row">
+        <div className="flex flex-col">
 
             
 
@@ -181,11 +181,11 @@ export default function PatientCreate({
                     </div>
                 </div>
             
-            </div>
+        </div>
 
-            <div className="mt-[32px] flex flex-row gap-2">
+            
 
-            <div className="w-full px-4">
+        <div className="mt-[32px] w-full px-4">
             <Formik
             innerRef={formRef}
         initialValues={{ fetchdata }}
@@ -939,7 +939,7 @@ export default function PatientCreate({
                         </div>
             
                         {patientForm[key]!='' &&
-                        <div className="w-full mt-[30px] h-8">
+                        <div className="w-full mt-[30px] h-[60px]">
                             <div className="flex flex-row items-center justify-center">
                                 <div className="w-[70%] flex justify-start">
                                     <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientForm[key]}`}>
@@ -967,7 +967,7 @@ export default function PatientCreate({
             </div>
             </Accordion>
             
-            <div className="flex flex-row mt-[30px]"></div>
+            
             
             <Accordion title="Patients Code Related Form">
             <div className="flex flex-row gap-5 mt-[15px]">
@@ -991,7 +991,7 @@ export default function PatientCreate({
                         </div>
             
                         {patientCodeForm[key]!='' &&
-                        <div className="w-full mt-[30px] h-8">
+                        <div className="w-full mt-[30px] h-[60px]">
                             <div className="flex flex-row items-center justify-center">
                                 <div className="w-[70%] flex justify-start">
                                     <Link className="text-[16px] text-[#0166FF] border-[#C3C9CE] bg-[#F5F7F9] px-3 py-2 rounded"  target="blank" href={`${url}/download/${patientCodeForm[key]}`}>
@@ -1019,12 +1019,7 @@ export default function PatientCreate({
             
             </div>
             </Accordion>
-            
-            
-            
-            
-            
-            
+  
             {
             <div className="flex flex-row">
                 {/*JSON.stringify(values.fetchdata.caregiver*)*/}
@@ -1042,35 +1037,35 @@ export default function PatientCreate({
 
         </div>
         
-            </div>
+            
             
 
             
 
 
-            <div className="mt-[100px]">
-                <div className="flex flex-row-reverse gap-4">
-                    <div className="relative right-5 top-0">
-                        <button className="text-[15px] h-[40px] bg-[#0166FF] rounded text-white px-4  capitalize text-center font-semibold" onClick={handleSubmit}>
-                            Save
-                        </button>
-                    </div>
-                    <div className="relative right-[30px] top-[10px]">
-                    <Link
-                                    href={'/admin/patient'}
-                                    className={`text-[15px] h-[40px] capitalize text-center px-4 py-2.5  font-semibold bg-[#0166FF] rounded bg-opacity-5 text-[#0166FF]`}
-                                >                               
+        <div className="mt-[100px]">
+            <div className="flex flex-row-reverse gap-4">
+                <div className="relative right-5 top-0">
+                    <button className="text-[15px] h-[40px] bg-[#0166FF] rounded text-white px-4  capitalize text-center font-semibold" onClick={handleSubmit}>
+                        Save
+                    </button>
+                </div>
+                <div className="relative right-[30px] top-[10px]">
+                <Link
+                                href={'/admin/patient'}
+                                className={`text-[15px] h-[40px] capitalize text-center px-4 py-2.5  font-semibold bg-[#0166FF] rounded bg-opacity-5 text-[#0166FF]`}
+                            >                               
 
 
-                                Cancel
-                            </Link>
-                    </div>
-                    
-                    
-
-                </div> 
+                            Cancel
+                        </Link>
+                </div>
                 
-            </div>
+                
+
+            </div> 
+            
+        </div>
 
         </div>
         </DefaultLayout>
