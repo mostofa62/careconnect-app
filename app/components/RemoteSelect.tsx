@@ -81,6 +81,8 @@ const RemoteSelect = ({
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
   const [field, state, { setValue, setTouched }] = useField(name);
 
+  const [menuPortalTarget, setMenuPortalTarget] = useState<HTMLElement | null>(null);
+
   const selectRef = useRef<HTMLDivElement>(null);
 
   // Function to fetch options based on the query
@@ -124,6 +126,7 @@ const RemoteSelect = ({
   useEffect(() => {
     // Fetch the last 5 items by default when the component mounts
     fetchOptions(""); // Empty query to fetch default data
+    setMenuPortalTarget(document.body);
   }, [fetchOptions]);
 
   const handleInputChange = debounce((inputValue: string) => {
@@ -191,7 +194,7 @@ const RemoteSelect = ({
       {/*JSON.stringify(defaultValueOptions)*/}
     <Select
 
-      menuPortalTarget={document.body}
+      menuPortalTarget={menuPortalTarget}
       menuPosition='fixed'
       
       key={selectKey}      

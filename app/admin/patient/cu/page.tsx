@@ -813,7 +813,7 @@ export default function PatientCreate() {
                 values.fetchdata.caregiver.map((field, index) => (
                   <div key={index} className="flex flex-row">
                     <div className="w-[20%]">
-                    {JSON.stringify(field)}
+                    {/*JSON.stringify(field)*/}
                     <FormikSelectRemote
             label={`${DataLabel.caregiver} ${index+1}`}
             defaultValue={field}

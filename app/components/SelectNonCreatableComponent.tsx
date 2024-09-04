@@ -1,6 +1,6 @@
 "use client";
 import Select from 'react-select';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 import {useField} from 'formik';
@@ -47,11 +47,17 @@ const customStyles = {
 
 const SelectNonCreatableComponent = (props:SelectProps) => {
     const [field, state, { setValue, setTouched }] = useField(props.name);
+    const [menuPortalTarget, setMenuPortalTarget] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+      
+      setMenuPortalTarget(document.body);
+    }, []);
 
   return (
     <>
       <Select
-      menuPortalTarget={document.body}
+      menuPortalTarget={menuPortalTarget}
       menuPosition='fixed'
       classNames={{
         /*
